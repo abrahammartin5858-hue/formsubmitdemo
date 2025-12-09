@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHRIST EMBASSY ROCK CITY SOCAIL</title>
+    <style>
+       
+        
+        /* ──────────────────────────────────────────────
+           BASIC LAYOUT
+        ────────────────────────────────────────────── */
+        body{
+            margin:0;padding:0;font-family:'Poppins',sans-serif;
+            background:linear-gradient(135deg,#1e3c72,#2a5298);
+            min-height:100vh;display:flex;justify-content:center;align-items:flex-start;
+            overflow-x:hidden;padding:20px 0;box-sizing:border-box;
+            padding-top:120px !important;
+        }
+
+       
+        /* ──────────────────────────────────────────────
+           FORM CARD
+        ────────────────────────────────────────────── */
+        .form-container{
+            background:#fff;border-radius:20px;
+            box-shadow:0 15px 40px rgba(0,0,0,.15);
+            max-width:800px;width:90%;padding:40px;
+            position:relative;z-index:1;
+            animation:fadeIn .5s ease-in-out;margin:20px 0;
+        }
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+        .banner-wrapper{margin:-40px -40px 0 -40px;}
+        .banner-header{
+            height:150px;background:url('https://kingsforms4589.s3.amazonaws.com/banners/176416826877452838.jpg') center/cover no-repeat;
+            filter:brightness(70%);border-top-left-radius:20px;border-top-right-radius:20px;margin-bottom:20px;
+        }
+        .form-header h1{font-size:2.5rem;font-weight:700;color:#1e3c72;margin-bottom:10px;text-align:center;}
+        .form-header p{font-size:1.1rem;color:#6c757d;line-height:1.6;text-align:center;}
+
+        /* ──────────────────────────────────────────────
+           TOGGLE SWITCH
+        ────────────────────────────────────────────── */
+        .offline-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #34495e;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 56px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.active {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        .toggle-switch.active .slider {
+            transform: translateX(26px);
+        }
+
+        /* ──────────────────────────────────────────────
+           PROGRESS, QUESTIONS, SUBMIT
+        ────────────────────────────────────────────── */
+        .progress-container{margin-bottom:30px;}
+        .progress{height:10px;border-radius:5px;background:#e9ecef;}
+        .progress-bar{background:linear-gradient(135deg,#2a5298,#1e3c72);transition:width .3s ease;}
+        .progress-text{font-size:.9rem;color:#34495e;text-align:center;margin-top:5px;}
+
+        .question-card{background:#f8f9fa;border-radius:15px;padding:20px;margin-bottom:20px;
+            transition:transform .2s,box-shadow .2s;}
+        .question-card:hover{transform:translateY(-5px);box-shadow:0 8px 20px rgba(0,0,0,.1);}
+        .question-card.error{box-shadow:0 0 0 2px #e74c3c;border-radius:15px;}
+
+        .form-control{border:none;border-bottom:2px solid #ddd;border-radius:0;padding:10px 0;background:transparent;
+            transition:border-color .3s;}
+        .form-control:focus{border-color:#2a5298;box-shadow:none;}
+        .form-control.error{border-color:#e74c3c !important;}
+
+        .input-icon{position:relative;margin-bottom:15px;}
+        .input-icon i{position:absolute;left:0;top:50%;transform:translateY(-50%);color:#6c757d;font-size:1.2rem;}
+        .input-icon .form-control{padding-left:30px;}
+
+        .file-upload-wrapper{
+            position:relative;border:2px dashed #ddd;border-radius:10px;padding:20px;text-align:center;background:#fff;
+            transition:border-color .3s,background .3s;cursor:pointer;
+        }
+        .file-upload-wrapper:hover{border-color:#2a5298;background:#f8f9fa;}
+        .file-upload-wrapper.dragover{border-color:#2a5298;background:#e9ecef;}
+        .file-upload-wrapper.error{border-color:#e74c3c !important;}
+        .file-upload-wrapper i{font-size:2rem;color:#6c757d;margin-bottom:10px;}
+        .file-upload-wrapper p{margin:0;font-size:.9rem;color:#6c757d;}
+        .file-upload-wrapper .file-input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+        .file-upload-wrapper .custom-file-label{
+            display:inline-block;background:linear-gradient(135deg,#2a5298,#1e3c72);color:#fff;
+            padding:8px 20px;border-radius:50px;font-size:.9rem;font-weight:600;margin-top:10px;
+            transition:background .3s;
+        }
+        .file-upload-wrapper .custom-file-label:hover{background:linear-gradient(135deg,#1e3c72,#2a5298);}
+        .file-upload-wrapper .file-name{margin-top:10px;font-size:.9rem;color:#34495e;word-break:break-all;}
+
+        .submit-section{text-align:center;padding:20px;background:#e9ecef;border-radius:15px;margin-top:30px;}
+        .submit-section .btn-group{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+        .submit-section button{
+            background:linear-gradient(135deg,#2a5298,#1e3c72);border:none;padding:12px 30px;
+            font-size:1.1rem;font-weight:600;color:#fff;border-radius:50px;transition:all .3s;min-width:160px;
+        }
+        .submit-section button:hover{background:linear-gradient(135deg,#1e3c72,#2a5298);transform:scale(1.05);}
+        .submit-section button:disabled{background:#6c757d;cursor:not-allowed;transform:none;}
+        .submit-section .btn-offline{background:linear-gradient(135deg,#f39c12,#e67e22);}
+        .submit-section .btn-offline:hover{background:linear-gradient(135deg,#e67e22,#d35400);}
+        .submit-section .btn-sync{background:linear-gradient(135deg,#27ae60,#1e8449);}
+        .submit-section .btn-sync:hover{background:linear-gradient(135deg,#1e8449,#166d3b);}
+        .submit-section .btn-danger{background:linear-gradient(135deg,#e74c3c,#c0392b);}
+        .submit-section .btn-danger:hover{background:linear-gradient(135deg,#c0392b,#a93226);transform:scale(1.05);}
+
+        .offline-notice{background:#fff3cd;color:#856404;padding:10px;border-radius:8px;font-size:.9rem;
+            margin:10px 0;text-align:center;border:1px solid #ffeaa7;}
+        .expiration-notice{font-size:1rem;color:#fff;background:#34495e;padding:10px;border-radius:10px;
+            margin:20px 0;font-weight:600;}
+        .countdown-timer{font-size:.9rem;color:#dc3545;margin-top:10px;}
+        .warnings{font-size:.9rem;color:#dc3545;margin-top:15px;}
+
+        @media (max-width:768px){
+            .form-container{padding:25px;margin:10 to 0;}
+            .banner-wrapper{margin:-25px -25px 0 -25px;}
+            .banner-header{height:100px;margin-bottom:15px;}
+            .form-header h1{font-size:2rem;}
+            .form-header p{font-size:1rem;}
+            .form-logo {
+                width: 60px;
+                height: 60px;
+                top: 60px;
+                left: 15px;
+            }
+        }
+    </style>
+  
+    <div class="form-container">
+       <h1>SUCCESSFULL</h1>
+       <p>SUCCESS! WELLDONE ON YOUR SUBMITTION, WE WILL GET BACK TO 
+        YOU 
+       <strong>THANK YOU AND GOD BLESS YOU</strong></p>
+       <P> <small>christ embassy rock city media</small></P>
+
+    
+    </div>
+</body>
+</html>
