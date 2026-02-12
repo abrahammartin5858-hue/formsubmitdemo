@@ -1,0 +1,484 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  BookOpen, 
+  Search, 
+  Clock, 
+  Heart, 
+  Database,
+  ExternalLink,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Phone, // For WhatsApp
+  Mail,
+  Download
+} from 'lucide-react';
+import { generateDailyDevotional, searchPastorChrisBooks, getFormattedDate } from './services/geminiService';
+import { DevotionalContent, Book, SocialPlatform } from './types';
+import PrayerOverlay from './components/PrayerOverlay';
+import GalleryAndShare from './components/GalleryAndShare';
+
+// --- Types for Local State ---
+type View = 'daily' | 'books';
+
+function App() {
+  const [currentView, setCurrentView] = useState<View>('daily');
+  const [devotional, setDevotional] = useState<DevotionalContent | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [timerSeconds, setTimerSeconds] = useState(300); // 5 minutes = 300 seconds
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [showPrayer, setShowPrayer] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Book[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showNotification, setShowNotification] = useState<{message: string, type: 'social' | 'admin'} | null>(null);
+
+  const formattedDate = getFormattedDate();
+  const adminEmail = "abrahammartin5858@gmail.com";
+  const rhapsodyBannerUrl = "https://rhapsodyofrealities.b-cdn.net/give.rhapsodyofrealities.org/new_lingual_banner.png";
+  const backgroundImageUrl = "https://tse2.mm.bing.net/th/id/OIP.REMuCZYQVu6axFNLWqG5XwHaDu?pid=Api&P=0&h=220";
+  const pastorChrisImageUrl = "https://flatimes.com/wp-content/uploads/2024/10/Pastor-Chris-O.jpg";
+
+  // --- Initialization ---
+  useEffect(() => {
+    const fetchDaily = async () => {
+      setIsLoading(true);
+      const data = await generateDailyDevotional(formattedDate);
+      setDevotional(data);
+      setIsLoading(false);
+      // Start timer automatically when devotional loads
+      setIsTimerActive(true);
+    };
+    fetchDaily();
+  }, [formattedDate]);
+
+  // --- Timer Logic ---
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (isTimerActive && timerSeconds > 0) {
+      interval = setInterval(() => {
+        setTimerSeconds((prev) => prev - 1);
+      }, 1000);
+    } else if (timerSeconds === 0 && isTimerActive) {
+      // Timer finished
+      setIsTimerActive(false);
+      setShowPrayer(true);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerActive, timerSeconds]);
+
+  // --- Handlers ---
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    
+    setIsSearching(true);
+    setCurrentView('books');
+    const results = await searchPastorChrisBooks(searchQuery);
+    setSearchResults(results);
+    setIsSearching(false);
+  };
+
+  const handleDevotionalShare = (platform: SocialPlatform) => {
+    if (!devotional) return;
+
+    const url = window.location.href; 
+    const text = `Read today's Rhapsody of Realities: "${devotional.title}"`;
+    const fullText = `${text}\n\n${devotional.scripture}\n\nRead more at: ${url}`;
+    
+    let shareLink = '';
+
+    switch (platform) {
+      case SocialPlatform.Facebook:
+        shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        break;
+      case SocialPlatform.Twitter:
+        shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        break;
+      case SocialPlatform.WhatsApp:
+        shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(fullText)}`;
+        break;
+      case SocialPlatform.LinkedIn:
+        shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        break;
+      case SocialPlatform.Email:
+        shareLink = `mailto:?subject=${encodeURIComponent(devotional.title)}&body=${encodeURIComponent(fullText)}`;
+        break;
+      default:
+        break;
+    }
+
+    if (shareLink) {
+      window.open(shareLink, '_blank', 'width=600,height=400');
+    }
+
+    // Simulate User Notification
+    setTimeout(() => {
+        setShowNotification({
+            message: `You shared the Rhapsody on ${platform}!`,
+            type: 'social'
+        });
+    }, 2000);
+
+    // Simulate Admin Email Notification
+    sendAdminNotification(`User shared Rhapsody on ${platform}`);
+  };
+
+  const sendAdminNotification = (action: string) => {
+    console.log(`Sending to ${adminEmail}: ${action}`);
+    // Notification logic handled by showNotification usually, or silent log
+  };
+
+  const handleAdminDatabaseExport = () => {
+    const subject = encodeURIComponent("THE LAST MAN - User Database Export");
+    const body = encodeURIComponent("Here is the database of all users:\n\n[User Data Attachment would go here in a backend system]\n\nGenerated by THE LAST MAN App.");
+    window.location.href = `mailto:${adminEmail}?subject=${subject}&body=${body}`;
+    setShowNotification({ message: "Database prepared for Admin email.", type: 'admin'});
+  };
+
+  const formatTime = (secs: number) => {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
+  return (
+    <div 
+      className="min-h-screen flex flex-col font-sans bg-fixed bg-cover bg-center text-gray-900"
+      style={{
+        backgroundImage: `url("${backgroundImageUrl}")`
+      }}
+    >
+      {/* Content Overlay - Tinted to ensure content is visible against background */}
+      <div className="flex flex-col min-h-screen bg-royal-900/60 backdrop-blur-[2px]">
+        
+        {/* --- Notification Toast --- */}
+        {showNotification && (
+          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[100] w-11/12 max-w-md animate-in slide-in-from-top duration-500">
+            <div className={`p-4 rounded-xl shadow-2xl border flex items-start gap-3 ${
+              showNotification.type === 'social' ? 'bg-royal-900 text-white border-royal-700' : 'bg-gold-500 text-black border-gold-600'
+            }`}>
+              {showNotification.type === 'social' ? <Heart className="fill-red-500 text-red-500 shrink-0" /> : <Database className="shrink-0"/>}
+              <div>
+                <h4 className="font-bold text-sm uppercase mb-1">
+                  {showNotification.type === 'social' ? 'Social Activity' : 'Admin Alert'}
+                </h4>
+                <p className="text-sm leading-tight">{showNotification.message}</p>
+              </div>
+              <button onClick={() => setShowNotification(null)} className="ml-auto hover:opacity-70"><div className="w-5 h-5 rounded-full border flex items-center justify-center">x</div></button>
+            </div>
+          </div>
+        )}
+
+        {/* --- Header --- */}
+        <header className="bg-royal-950/95 backdrop-blur-md text-white sticky top-0 z-40 shadow-xl border-b border-gold-600">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              
+              {/* Branding */}
+              <div className="flex items-center gap-3 cursor-pointer" onClick={() => setCurrentView('daily')}>
+                <div className="bg-gold-500 p-2 rounded-lg text-royal-950">
+                  <BookOpen size={28} strokeWidth={2.5} />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-serif font-black tracking-widest text-gold-500">THE LAST MAN</h1>
+                  <p className="text-[10px] md:text-xs text-royal-200 max-w-md hidden md:block">
+                    "The life-changing truths in this last days will refresh you and transform your life and prepares you for the coming of the lord Jesus"
+                  </p>
+                </div>
+              </div>
+
+              {/* Search Bar */}
+              <form onSubmit={handleSearch} className="flex-1 max-w-md">
+                <div className="relative group">
+                  <input
+                    type="text"
+                    placeholder="Search Rhapsody or Pastor Chris books..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-royal-900/80 border border-royal-700 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-white placeholder-royal-300"
+                  />
+                  <Search className="absolute left-3 top-2.5 text-royal-400 group-focus-within:text-gold-500" size={18} />
+                </div>
+              </form>
+
+              {/* Navigation / Admin Link */}
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={handleAdminDatabaseExport}
+                  className="hidden md:flex items-center gap-1 text-xs text-royal-300 hover:text-white transition-colors"
+                  title="Send Database to Admin"
+                >
+                  <Database size={14} />
+                  <span>Admin</span>
+                </button>
+                <div className="flex items-center gap-2 bg-royal-900/80 px-3 py-1 rounded-full border border-royal-800">
+                  <Clock size={16} className="text-gold-500" />
+                  <span className="font-mono text-sm">{formatTime(timerSeconds)}</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Mobile Subtitle */}
+            <p className="text-[10px] text-royal-200 mt-3 md:hidden text-center italic">
+              "The life-changing truths in this last days will refresh you..."
+            </p>
+          </div>
+        </header>
+
+        {/* --- Main Content --- */}
+        <main className="flex-grow container mx-auto px-4 py-8">
+          
+          {currentView === 'daily' && (
+            <div className="max-w-4xl mx-auto">
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-20 bg-white/10 backdrop-blur-sm rounded-2xl">
+                  <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-gold-500 mb-4"></div>
+                  <p className="text-white font-serif animate-pulse">Loading Rhapsody of Realities...</p>
+                </div>
+              ) : devotional ? (
+                <div className="grid md:grid-cols-3 gap-8">
+                  
+                  {/* Article Column */}
+                  <div className="md:col-span-2 space-y-6">
+                    <article className="bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-xl border-t-4 border-gold-500">
+                      
+                      {/* Rhapsody Banner Image */}
+                      <div className="mb-6 rounded-xl overflow-hidden shadow-md">
+                          <img 
+                              src={rhapsodyBannerUrl} 
+                              alt="Rhapsody of Realities Banner" 
+                              className="w-full h-auto object-cover"
+                          />
+                      </div>
+
+                      <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                        <span className="bg-royal-100 text-royal-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                          Daily Devotional
+                        </span>
+                        <span className="text-gray-500 font-serif italic">{devotional.date}</span>
+                      </div>
+
+                      <h2 className="text-3xl md:text-4xl font-serif font-bold text-royal-950 mb-4 leading-tight">
+                        {devotional.title}
+                      </h2>
+
+                      <div className="bg-royal-50 p-4 rounded-xl border-l-4 border-royal-500 mb-6">
+                        <p className="text-royal-800 font-serif text-lg italic">"{devotional.scripture}"</p>
+                      </div>
+
+                      <div className="prose prose-lg text-gray-700 leading-relaxed font-serif">
+                        {(devotional.body || '').split('\n').map((para, i) => (
+                          <p key={i} className="mb-4">{para}</p>
+                        ))}
+                      </div>
+
+                      <div className="mt-8 pt-8 border-t border-gray-200">
+                        <h3 className="text-gold-600 font-bold uppercase text-sm tracking-wider mb-2">Confession</h3>
+                        <p className="text-xl font-medium text-royal-900">
+                          {devotional.confession}
+                        </p>
+                      </div>
+
+                      {/* Social Share Section for Devotional */}
+                      <div className="mt-10 pt-6 border-t border-gray-100">
+                        <h3 className="text-center text-gray-500 font-bold uppercase text-xs tracking-wider mb-4">Share this Rhapsody</h3>
+                        <div className="flex flex-wrap justify-center gap-4">
+                          <button 
+                              onClick={() => handleDevotionalShare(SocialPlatform.WhatsApp)}
+                              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-medium transition-all transform hover:scale-105"
+                          >
+                              <Phone size={18} className="fill-current" /> WhatsApp
+                          </button>
+                          <button 
+                              onClick={() => handleDevotionalShare(SocialPlatform.Facebook)}
+                              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-medium transition-all transform hover:scale-105"
+                          >
+                              <Facebook size={18} className="fill-current" /> Facebook
+                          </button>
+                          <button 
+                              onClick={() => handleDevotionalShare(SocialPlatform.Twitter)}
+                              className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-full font-medium transition-all transform hover:scale-105"
+                          >
+                              <Twitter size={18} className="fill-current" /> Twitter
+                          </button>
+                          <button 
+                              onClick={() => handleDevotionalShare(SocialPlatform.LinkedIn)}
+                              className="flex items-center gap-2 bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded-full font-medium transition-all transform hover:scale-105"
+                          >
+                              <Linkedin size={18} className="fill-current" /> LinkedIn
+                          </button>
+                          <button 
+                              onClick={() => handleDevotionalShare(SocialPlatform.Email)}
+                              className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-full font-medium transition-all transform hover:scale-105"
+                          >
+                              <Mail size={18} /> Email
+                          </button>
+                        </div>
+                      </div>
+
+                      {devotional.sourceUrls && devotional.sourceUrls.length > 0 && (
+                        <div className="mt-8 pt-4 border-t border-gray-100">
+                          <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2 flex items-center gap-1">
+                              Sources <ExternalLink size={10} />
+                          </h4>
+                          <ul className="space-y-1">
+                              {devotional.sourceUrls.map((url, idx) => (
+                                <li key={idx}>
+                                  <a 
+                                    href={url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="text-xs text-royal-500 hover:underline break-all"
+                                  >
+                                    {url}
+                                  </a>
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
+                      )}
+                    </article>
+
+                    {/* Manual Timer Control (Optional for user experience) */}
+                    {timerSeconds > 0 && (
+                      <div className="bg-white/95 backdrop-blur-sm border border-blue-200 p-4 rounded-lg flex items-center justify-between shadow-sm">
+                          <span className="text-blue-800 text-sm">Please spend 5 minutes studying to unlock the Prayer of Salvation.</span>
+                          <button 
+                            onClick={() => setTimerSeconds(0)}
+                            className="text-xs text-blue-600 underline hover:text-blue-800"
+                          >
+                            (Dev: Skip Timer)
+                          </button>
+                      </div>
+                    )}
+
+                    {/* Gallery & Share (Moved here for better width/layout) */}
+                    <GalleryAndShare />
+                  </div>
+
+                  {/* Sidebar Column */}
+                  <div className="space-y-6">
+                    {/* Author Profile */}
+                    <div className="bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-lg text-center border border-gray-100">
+                        <div className="w-24 h-24 mx-auto bg-gray-200 rounded-full overflow-hidden mb-4 border-4 border-gold-500">
+                          <img src={pastorChrisImageUrl} alt="Pastor Chris" className="w-full h-full object-cover" />
+                        </div>
+                        <h3 className="font-bold text-xl text-royal-900">Pastor Chris Oyakhilome</h3>
+                        <p className="text-sm text-gray-500 mb-4">Author, Rhapsody of Realities</p>
+                        <button 
+                          onClick={() => {
+                              setSearchQuery("Pastor Chris Books");
+                              handleSearch({ preventDefault: () => {} } as React.FormEvent);
+                          }}
+                          className="w-full bg-royal-900 text-white py-2 rounded-full text-sm font-medium hover:bg-royal-800 transition-colors"
+                        >
+                          View Books
+                        </button>
+                    </div>
+                    
+                    {/* Download App Card */}
+                    <div className="bg-gradient-to-br from-blue-600 to-royal-800 p-6 rounded-xl shadow-lg text-center text-white">
+                        <h3 className="font-bold text-xl mb-2">Get the App</h3>
+                        <p className="text-sm text-blue-100 mb-4">
+                          Download the Rhapsody of Realities app from the Loveworld AppStore for more features.
+                        </p>
+                        <a 
+                          href="https://lwappstore.com" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 w-full bg-gold-500 hover:bg-gold-600 text-white py-3 rounded-full font-bold transition-all transform hover:scale-105"
+                        >
+                          <Download size={20} />
+                          Download Now
+                        </a>
+                    </div>
+                  </div>
+
+                </div>
+              ) : (
+                <div className="text-center p-8 bg-white/90 rounded-xl">
+                    <p className="text-red-500">Failed to load content. Please refresh.</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {currentView === 'books' && (
+            <div className="max-w-6xl mx-auto">
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-3xl font-serif font-bold text-white drop-shadow-md">
+                    Books by Pastor Chris
+                  </h2>
+                  <button 
+                    onClick={() => setCurrentView('daily')}
+                    className="text-white hover:text-gold-400 flex items-center gap-1 drop-shadow-md"
+                  >
+                    &larr; Back to Devotional
+                  </button>
+                </div>
+
+                {isSearching ? (
+                  <div className="flex justify-center py-20">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-white"></div>
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {searchResults.map((book) => (
+                      <div key={book.id} className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300">
+                        <div className="h-64 overflow-hidden relative">
+                          <img src={book.coverUrl} alt={book.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                              <h3 className="text-white font-bold text-xl">{book.title}</h3>
+                          </div>
+                        </div>
+                        <div className="p-6">
+                          <p className="text-gray-600 text-sm mb-4 line-clamp-3">{book.description}</p>
+                          <button className="w-full bg-gold-500 hover:bg-gold-600 text-white font-bold py-2 rounded-lg transition-colors">
+                            Read More
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-20 bg-white/95 rounded-xl shadow-sm">
+                    <p className="text-gray-500 text-lg">No specific books found. Try searching for "Healing", "Holy Spirit", or "Mind".</p>
+                  </div>
+                )}
+            </div>
+          )}
+        </main>
+
+        {/* --- Footer --- */}
+        <footer className="bg-gray-900/95 text-gray-400 py-12 border-t border-gray-800">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-2xl font-serif font-bold text-gold-500 mb-4">THE LAST MAN</h2>
+            <p className="max-w-2xl mx-auto mb-8 text-sm">
+              Providing divine insights for the end times. Connect with the Spirit of God daily through the Rhapsody of Realities.
+            </p>
+            <div className="text-xs text-gray-600">
+              &copy; {new Date().getFullYear()} THE LAST MAN. All Rights Reserved. <br/>
+              Content sourced via API based on the works of Pastor Chris Oyakhilome.
+            </div>
+          </div>
+        </footer>
+
+        {/* --- Modals --- */}
+        <PrayerOverlay 
+          isOpen={showPrayer}
+          onClose={() => setShowPrayer(false)}
+          onAdminNotify={() => {
+            setShowNotification({
+              message: "Praise God! We have received your prayer notification.",
+              type: "social"
+            });
+            sendAdminNotification("User completed the Prayer of Salvation");
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default App;
