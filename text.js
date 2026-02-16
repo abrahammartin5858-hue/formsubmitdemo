@@ -139,7 +139,7 @@ function initDailyDevotional() {
 
   // 2. Fetch and Update Content
   // To use real data, you would need a backend proxy to fetch from:
-  // https://rhapsodyofrealities.org
+  // https://read.rhapsodyofrealities.org/daily-devotional
   fetchDailyContent().then(data => {
     if (!data) return;
 
@@ -183,6 +183,14 @@ async function fetchDailyContent() {
 
 
  
+  initClock();
+  initTestimonyForm();
+  initPrayerFeatures();
+  initDailyDevotional();
+  initVideoChallenge();
+;
+
+/**
 
 /**
  * Initializes the Rhapsody Video Challenge functionality.
@@ -327,3 +335,74 @@ function initVideoChallenge() {
     // Initialize UI for the video challenge section
     updateUI('idle');
 }
+  
+async function fetchDailyContent() {
+  //in a real application, you would fetch this data from your backend api, which would handle server-side scraping and caching of the rhapsody content. here, we will simulate this with a direct fetch to a cors proxy, but be aware that this may not work in all browsers due to cors restrict and the external site's policies.   
+  
+  try {
+    // Use a CORS proxy to fetch the content from the Rhapsody website
+    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://read.rhapsodyofrealities.org/');
+    const response = await fetch(proxyUrl);
+    const data = await response.json();
+
+    if (!data.contents) throw new Error('No content received from proxy');
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data.contents, 'text/html');
+
+    // Attempt to scrape content using generic selectors common to the site structure
+    // Note: Selectors may need adjustment if the external site structure changes
+    const title = doc.querySelector('h1')?.textContent.trim() || doc.querySelector('.entry-title')?.textContent.trim();
+    const date = doc.querySelector('.date')?.textContent.trim() || doc.querySelector('time')?.textContent.trim();
+    
+    // Find the main content container
+    const contentContainer = doc.querySelector('.entry-content') || doc.querySelector('article') || doc.body;
+    
+    // Extract paragraphs
+    let paragraphs = Array.from(contentContainer.querySelectorAll('p'))
+      .map(p => p.textContent.trim())
+      .filter(text => text.length > 0);
+
+    // Heuristic: First paragraph is often scripture, Last section is often confession
+    let scripture = paragraphs.length > 0 ? paragraphs[0] : "";
+    let confession = "";
+    
+    // Look for confession keyword
+    const confessionIndex = paragraphs.findIndex(p => 
+      p.toUpperCase().includes('CONFESSION') || p.toUpperCase().includes('PRAYER')
+    );
+
+    if (confessionIndex !== -1) {
+      confession = paragraphs.slice(confessionIndex).join(' ');
+      // The body is everything between scripture (index 0) and confession
+      paragraphs = paragraphs.slice(1, confessionIndex);
+    } else {
+      paragraphs = paragraphs.slice(1); // Just remove scripture
+    }
+
+    if (title) {
+      return { title, date, scripture, body: paragraphs, confession };
+    }
+    
+    throw new Error('Could not parse site content');
+
+  } catch (err) {
+    console.warn('Fetching failed or blocked, falling back to offline content:', err);
+    return {
+        title: "Living In His Authority",
+        scripture: "\"And these signs shall follow them that believe; In my name shall they cast out devils...\" (Mark 16:17)",
+        body: [
+          "The authority given to us in the Name of Jesus is absolute. It covers everything in heaven, on earth, and under the earth.",
+          "You don't need to struggle to make things happen. When you speak in His Name, power is released.",
+          "Today, exercise that authority over your circumstances. Don't beg; command results in the Name of Jesus. The world is waiting for your manifestation."
+        ],
+        confession: "I walk in the authority of Christ. Circumstances align with my words because I speak in the Name of Jesus. I am victorious in all things. Hallelujah!"
+    };
+  }
+}
+
+/**
+ * Initializes the Rhapsody Video Challenge functionality. 
+ * note:this is a simplified implementation for demonstration purposes. in production, you would want to handle more edige cases, optimize performance, and ensure accessible.
+ * 
+ */function initvideochallenage(){}
