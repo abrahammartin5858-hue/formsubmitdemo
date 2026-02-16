@@ -1,1 +1,148 @@
+ [_nghost-ng-c3400770081]{
+  width:100%;
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:-moz-box;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-orient:vertical;
+  -webkit-box-direction:normal;
+  -webkit-flex-direction:column;
+  -moz-box-orient:vertical;
+  -moz-box-direction:normal;
+  -ms-flex-direction:column;
+  flex-direction:column;
+  gap:8px;
+  -webkit-box-align:start;
+  -webkit-align-items:flex-start;
+  -moz-box-align:start;
+  -ms-flex-align:start;
+  align-items:flex-start
+} [_nghost-ng-c3400770081]  
+  
+  .settings-model-selector[_ngcontent-ng-c3400770081]{
+    gap:8px;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -webkit-flex-direction:column;
+    -moz-box-orient:vertical;
+    -moz-box-direction:normal;
+    -ms-flex-direction:column;
+    flex-direction:column;
+    width:100%
+  } [_nghost-ng-c3400770081]
+
+  .title[_ngcontent-ng-c3400770081] {
+    font-family:Inter,sans-serif;
+    font-optical-sizing:auto;
+    font-size:14px;
+    font-weight:400;
+    line-height:21px;
+    color:var(--color-v3-text-var)}
+      [_nghost-ng-c3400770081]  
+
+  .description[_ngcontent-ng-c3400770081]{
+    font-family:Inter,sans-serif;
+    font-optical-sizing:auto;
+    font-size:12px;
+    font-weight:400;
+    line-height:16px} [_nghost-ng-c3400770081] mat-form-field[_ngcontent-ng-c3400770081]{width:100%}
+
+  .mat-divider {
+    display:block;
+    margin:0;
+    border-top-style:solid;
+    border-top-color:var(--mat-divider-color,var(--mat-sys-outline-variant));
+    border-top-width:var(--mat-divider-width, 1px)
+  }
+
+  .mat-divider.mat-divider-vertical{
+    border-top:0;
+    border-right-style:solid;
+    border-right-color:var(--mat-divider-color,var(--mat-sys-outline-variant));
+    border-right-width:var(--mat-divider-width, 1px)
+  }
+  
+  .mat-divider.mat-divider-inset{margin-left:80px}[dir=rtl] 
+  .mat-divider.mat-divider-inset{margin-left:auto;margin-right:80px}
  
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #d97706;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #b45309;
+      }
+     
+
+  .config-selector[_ngcontent-ng-c2385585911]{width:100%}
+  
+  .config-description[_ngcontent-ng-c2385585911]{
+    font-family:Inter,sans-serif;
+    font-optical-sizing:auto;
+    font-size:14px;
+    font-weight:400;
+    line-height:21px;
+    color:var(--color-v3-text-var);
+    margin-top:8px
+  }
+  
+  .google-internal[_ngcontent-ng-c2385585911]{
+    font-family:Inter,sans-serif;
+    font-optical-sizing:auto;
+    font-size:14px;
+    font-weight:400;
+    line-height:21px;
+    color:var(--color-v3-accent-1)
+  }
+  
+  .si-selector[_ngcontent-ng-c2385585911]{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-moz-box;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -webkit-flex-direction:column;
+    -moz-box-orient:vertical;
+    -moz-box-direction:normal;
+    -ms-flex-direction:column;
+    flex-direction:column;
+    gap:12px;
+    -webkit-box-align:start;
+    -webkit-align-items:flex-start;
+    -moz-box-align:start;
+    -ms-flex-align:start;
+    align-items:flex-start
+  }
+  
+  .si-selector-label[_ngcontent-ng-c2385585911]{
+    font-family:Inter,sans-serif;
+    font-optical-sizing:auto;
+    font-size:14px;
+    font-weight:400;
+    line-height:21px;
+    color:var(--color-v3-text-var)
+  } 
+
+        @import url(https://fonts.googleapis.com/css?family=Google+Sans+Text);
+        html {
+          font-family: 'Google Sans Text', 'Google Sans';
+          font-size: 14px;
+          color-scheme: light dark;
+          background: light-dark(white, black);
+          color: light-dark(black, white);
+        }
