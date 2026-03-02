@@ -2,22 +2,31 @@ document.addEventListener('DOMContentLoaded', () => {
   initClock();
   initTestimonyForm();
   initPrayerFeatures();
+  initDailyDevotional();
+  initVideoChallenge();
+  initSocialSharing();
 });
 
 /**
  * Initializes the real-time clock in the header.
  */
 function initClock() {
-  const timeDisplay = document.querySelector('.font-mono.text-sm');
-  if (timeDisplay) {
-    const updateTime = () => {
-      const now = new Date();
-      // Format: 12:00 or 24:00 depending on locale, matching the 0:00 placeholder style
-      timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    };
-    updateTime();
-    setInterval(updateTime, 1000);
+  const timeDisplay = document.querySelector('.time-display');
+  if (!timeDisplay) {
+    return; // Exit if the clock element isn't found
   }
+
+  const updateTime = () => {
+    const now = new Date();
+    timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // More efficient: calculate delay until the next minute starts
+    const seconds = now.getSeconds();
+    const milliseconds = now.getMilliseconds();
+    const delay = (60 - seconds) * 1000 - milliseconds;
+    setTimeout(updateTime, delay > 0 ? delay : 60000); // Schedule next update
+  };
+  updateTime(); // Initial call to display time immediately
 }
 
 /**
@@ -25,7 +34,7 @@ function initClock() {
  */
 function initTestimonyForm() {
   const textarea = document.querySelector('textarea');
-  const charCount = document.querySelector('.absolute.bottom-4.right-4');
+  const charCount = document.getElementById('char-count'); // More robust selector
   // Find the submit button specifically within the testimony section
   const submitBtn = Array.from(document.querySelectorAll('button'))
     .find(btn => btn.textContent.includes('Submit My Testimony'));
@@ -59,6 +68,267 @@ function initTestimonyForm() {
 }
 
 /**
+ * Initializes social sharing functionality for all platforms.
+ * This function adds sharing functions to the global scope
+ * so they can be called from HTML onclick attributes.
+ */
+function initSocialSharing() {
+  // Add shareToFacebook function to global scope
+  window.shareToFacebook = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create share message with devotional content
+    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body}\n\nFurther Study: ${furtherStudy}\n\nBible Reading: ${bibleReading}\n\n${window.location.href}`;
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    
+    // Create Facebook share URL
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodedMessage}`;
+    
+    // Open Facebook share dialog in a new window
+    window.open(facebookShareUrl, 'facebook-share-dialog', 'width=626,height=436');
+  };
+
+  // Add shareToWhatsApp function to global scope
+  window.shareToWhatsApp = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create share message with devotional content
+    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body}\n\nFurther Study: ${furtherStudy}\n\nBible Reading: ${bibleReading}\n\n${window.location.href}`;
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    
+    // Create WhatsApp share URL
+    const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+    
+    // Open WhatsApp share dialog in a new window
+    window.open(whatsappShareUrl, '_blank');
+  };
+
+  // Add shareToTwitter function to global scope
+  window.shareToTwitter = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create share message with devotional content (shorter for Twitter)
+    const shareMessage = `Rhapsody of Realities - ${title}\n${body.substring(0, 150)}...\nFurther Study: ${furtherStudy}\n${window.location.href}`;
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    const encodedHashtags = encodeURIComponent('#RhapsodyOfRealities #DailyDevotional #Faith');
+    
+    // Create Twitter share URL
+    const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodedMessage}&hashtags=${encodedHashtags}`;
+    
+    // Open Twitter share dialog in a new window
+    window.open(twitterShareUrl, 'twitter-share-dialog', 'width=550,height=420');
+  };
+
+  // Add shareToYouTube function to global scope (for video challenge)
+  window.shareToYouTube = function(event) {
+    event.preventDefault();
+    // YouTube sharing would require uploading the video first
+    // For now, just open YouTube
+    window.open('https://www.youtube.com/upload', '_blank');
+  };
+
+  // Add shareToInstagram function to global scope
+  window.shareToInstagram = function(event) {
+    event.preventDefault();
+    // Instagram sharing from web is limited, open Instagram app/website
+    window.open('https://www.instagram.com/accounts/login/', '_blank');
+  };
+
+  // Add shareToEmail function to global scope
+  window.shareToEmail = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create email content
+    const subject = encodeURIComponent(`Rhapsody of Realities - ${title}`);
+    const bodyContent = encodeURIComponent(`Check out today's Rhapsody of Realities devotional:\n\n${title}\n\n${body}\n\nFurther Study: ${furtherStudy}\nBible Reading: ${bibleReading}\n\nRead more: ${window.location.href}`);
+    
+    // Create mailto link
+    const mailtoLink = `mailto:?subject=${subject}&body=${bodyContent}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+  };
+
+  // Add shareToLinkedIn function to global scope
+  window.shareToLinkedIn = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create share message with devotional content
+    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body.substring(0, 200)}...\n\nFurther Study: ${furtherStudy}\n\n${window.location.href}`;
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    const encodedTitle = encodeURIComponent(`Rhapsody of Realities - ${title}`);
+    const encodedSource = encodeURIComponent('THE LAST MAN');
+    
+    // Create LinkedIn share URL
+    const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}&title=${encodedTitle}&summary=${encodedMessage}&source=${encodedSource}`;
+    
+    // Open LinkedIn share dialog in a new window
+    window.open(linkedinShareUrl, 'linkedin-share-dialog', 'width=600,height=400');
+  };
+
+  // Add shareToTelegram function to global scope
+  window.shareToTelegram = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create share message with devotional content
+    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body}\n\nFurther Study: ${furtherStudy}\n\nBible Reading: ${bibleReading}\n\n${window.location.href}`;
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    
+    // Create Telegram share URL
+    const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodedMessage}`;
+    
+    // Open Telegram share dialog in a new window
+    window.open(telegramShareUrl, '_blank');
+  };
+
+  // Add shareToPinterest function to global scope
+  window.shareToPinterest = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create share message with devotional content
+    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body.substring(0, 200)}...\n\nFurther Study: ${furtherStudy}\n\n${window.location.href}`;
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    const encodedMedia = encodeURIComponent('https://rhapsodyofrealities.b-cdn.net/give.rhapsodyofrealities.org/new_lingual_banner.png');
+    
+    // Create Pinterest share URL
+    const pinterestShareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(window.location.href)}&media=${encodedMedia}&description=${encodedMessage}`;
+    
+    // Open Pinterest share dialog in a new window
+    window.open(pinterestShareUrl, 'pinterest-share-dialog', 'width=750,height=320');
+  };
+
+  // Add shareToReddit function to global scope
+  window.shareToReddit = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create share message with devotional content
+    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body.substring(0, 300)}...\n\nFurther Study: ${furtherStudy}\n\n${window.location.href}`;
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    const encodedTitle = encodeURIComponent(`Rhapsody of Realities - ${title}`);
+    
+    // Create Reddit share URL
+    const redditShareUrl = `https://www.reddit.com/submit?title=${encodedTitle}&url=${encodeURIComponent(window.location.href)}&selftext=${encodedMessage}`;
+    
+    // Open Reddit share dialog in a new window
+    window.open(redditShareUrl, 'reddit-share-dialog', 'width=900,height=600');
+  };
+
+  // Add shareToCopyLink function to global scope
+  window.shareToCopyLink = function(event) {
+    event.preventDefault();
+    
+    // Copy the current URL to clipboard
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert('Link copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy link:', err);
+      alert('Failed to copy link. Please manually copy the URL.');
+    });
+  };
+
+  // Add shareToPrint function to global scope
+  window.shareToPrint = function(event) {
+    event.preventDefault();
+    window.print();
+  };
+
+  // Add shareToSMS function to global scope
+  window.shareToSMS = function(event) {
+    event.preventDefault();
+    
+    // Get current devotional content from the page
+    const title = document.getElementById('clean_title')?.textContent || '';
+    const body = document.getElementById('body')?.textContent || '';
+    const date = document.getElementById('devo_date')?.textContent || '';
+    const furtherStudy = document.getElementById('further_study')?.textContent || '';
+    const bibleReading = document.getElementById('ba')?.textContent || '';
+    
+    // Create share message with devotional content (shorter for SMS)
+    const shareMessage = `Rhapsody of Realities - ${title}\n${body.substring(0, 100)}...\n${window.location.href}`;
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    
+    // Create SMS share URL
+    const smsShareUrl = `sms:&body=${encodedMessage}`;
+    
+    // Open SMS app
+    window.location.href = smsShareUrl;
+  };
+}
+
+
+/**
  * Initializes audio and interaction for the prayer section.
  */
 function initPrayerFeatures() {
@@ -67,8 +337,8 @@ function initPrayerFeatures() {
   const prayedBtn = buttons.find(b => b.textContent.includes('I Prayed This Prayer'));
   
   // The prayer text is the last paragraph inside the royal-50 container
-  const prayerContainer = document.querySelector('.bg-royal-50.shadow-inner');
-  const prayerText = prayerContainer ? prayerContainer.querySelector('p:last-of-type') : null;
+  const prayerCard = document.getElementById('salvation-prayer-card'); // More robust selector
+  const prayerText = prayerCard ? prayerCard.querySelector('p:last-of-type') : null;
 
   // Text-to-Speech Logic
   if (listenBtn && prayerText) {
@@ -104,110 +374,19 @@ function initPrayerFeatures() {
   }
 }
 
-  initClock();
-  initTestimonyForm();
-  initPrayerFeatures();
-  initDailyDevotional();
-;
 
-/**
-
-/**
-    });
-  }
-}
-
-/**
- * Updates the devotional content based on the current day.
- * Note: Direct scraping from rhapsodyofrealities.org is restricted by CORS in browsers.
- * This function demonstrates the DOM update logic with simulated data.
- */
-function initDailyDevotional() {
-  const dateDisplay = document.querySelector('.text-gray-500.font-serif.italic');
-  const titleDisplay = document.querySelector('h2.text-3xl');
-  const scriptureDisplay = document.querySelector('.bg-royal-50.border-l-4');
-  const bodyDisplay = document.querySelector('.prose');
-  const confessionContainer = document.querySelector('.mt-8.pt-8.border-t');
-  const confessionDisplay = confessionContainer ? confessionContainer.querySelector('p') : null;
-
-  // 1. Update Date to Today
-  const today = new Date();
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  if (dateDisplay) {
-    dateDisplay.textContent = today.toLocaleDateString('en-US', options);
-  }
-
-  // 2. Fetch and Update Content
-  // To use real data, you would need a backend proxy to fetch from:
-  // https://read.rhapsodyofrealities.org/daily-devotional
-  fetchDailyContent().then(data => {
-    if (!data) return;
-
-    if (titleDisplay) titleDisplay.textContent = data.title;
-    if (scriptureDisplay) scriptureDisplay.textContent = data.scripture;
-    
-    if (bodyDisplay) {
-      bodyDisplay.innerHTML = ''; // Clear placeholder text
-      data.body.forEach(paragraph => {
-        const p = document.createElement('p');
-        p.className = 'mb-4';
-        p.textContent = paragraph;
-        bodyDisplay.appendChild(p);
-      });
-    }
-
-    if (confessionDisplay) confessionDisplay.textContent = data.confession;
-  }).catch(err => console.error('Error updating devotional:', err));
-}
-
-/**
- * Simulates fetching data. In a real app, this would call your backend API.
- */
-async function fetchDailyContent() {
-  // Simulating a network request delay
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        title: "Living In His Authority",
-        scripture: "\"And these signs shall follow them that believe; In my name shall they cast out devils...\" (Mark 16:17)",
-        body: [
-          "The authority given to us in the Name of Jesus is absolute. It covers everything in heaven, on earth, and under the earth.",
-          "You don't need to struggle to make things happen. When you speak in His Name, power is released.",
-          "Today, exercise that authority over your circumstances. Don't beg; command results in the Name of Jesus."
-        ],
-        confession: "I walk in the authority of Christ. Circumstances align with my words because I speak in the Name of Jesus. I am victorious in all things. Hallelujah!"
-      });
-    }, 1000);
-  });
-}
-
-
- 
-  initClock();
-  initTestimonyForm();
-  initPrayerFeatures();
-  initDailyDevotional();
-  initVideoChallenge();
-;
-
-/**
-
-/**
- * Initializes the Rhapsody Video Challenge functionality.
- */
 function initVideoChallenge() {
-    const videoChallengeContainer = document.querySelector('.bg-royal-950.rounded-2xl.shadow-2xl');
+    const videoChallengeContainer = document.getElementById('video-challenge'); // More robust selector
     if (!videoChallengeContainer) {
         return; // Section not found, do nothing.
     }
 
     // Select elements
-    const videoPlayer = videoChallengeContainer.querySelector('video');
-    const allButtons = Array.from(videoChallengeContainer.querySelectorAll('button'));
-    const recordBtn = allButtons.find(b => b.textContent.includes('Retake'));
-    const shareBtn = allButtons.find(b => b.textContent.includes('Share via App'));
-    const downloadBtn = videoChallengeContainer.querySelector('button[title="Download Only"]');
-    const postRecordContainer = videoChallengeContainer.querySelector('.bg-royal-900\\/50');
+    const videoPlayer = document.getElementById('challenge-video');
+    const recordBtn = document.getElementById('record-btn');
+    const shareBtn = document.getElementById('share-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const postRecordContainer = document.getElementById('post-record-actions');
 
     if (!videoPlayer || !recordBtn || !shareBtn || !downloadBtn || !postRecordContainer) {
         console.error('One or more video challenge elements are missing.');
@@ -221,6 +400,7 @@ function initVideoChallenge() {
     let videoBlobUrl = null;
     let videoBlob = null;
     let recordingState = 'idle'; // 'idle', 'recording', 'recorded'
+    let timerInterval;
 
     // SVG Icons for buttons
     const startIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect></svg> Start Recording`;
@@ -229,6 +409,8 @@ function initVideoChallenge() {
 
     const updateUI = (state) => {
         recordingState = state;
+        if (timerInterval) clearInterval(timerInterval);
+
         if (state === 'idle') {
             recordBtn.innerHTML = startIcon;
             recordBtn.className = 'bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-royal-950 px-8 py-3 rounded-xl font-black text-lg flex items-center gap-2 shadow-lg transform hover:scale-105 transition-all';
@@ -240,7 +422,15 @@ function initVideoChallenge() {
             videoPlayer.controls = false;
             videoPlayer.muted = true; // Mute preview to prevent feedback
         } else if (state === 'recording') {
-            recordBtn.innerHTML = stopIcon;
+            const startTime = Date.now();
+            const updateTimer = () => {
+                const elapsed = Date.now() - startTime;
+                const mins = Math.floor(elapsed / 60000).toString().padStart(2, '0');
+                const secs = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
+                recordBtn.innerHTML = stopIcon.replace('Stop Recording', `${mins}:${secs}`);
+            };
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
             recordBtn.className = 'bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-black text-lg flex items-center gap-2 shadow-lg transform hover:scale-105 transition-all';
             shareBtn.style.display = 'none';
             downloadBtn.style.display = 'none';
@@ -336,9 +526,60 @@ function initVideoChallenge() {
     updateUI('idle');
 }
   
+/**
+ * Updates the devotional content based on the current day.
+ * It attempts to fetch live data via a CORS proxy and falls back to
+ * simulated data on failure. This function is updated to use the specific
+ * IDs found in the HTML for better stability.
+ */
+function initDailyDevotional() {
+  const dateDisplay = document.getElementById('devo_date');
+  const titleDisplay = document.getElementById('clean_title');
+  const bodyDisplay = document.getElementById('body');
+  const confessionDisplay = document.getElementById('confessions');
+
+  // 1. Update Date to Today
+  const today = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  if (dateDisplay) {
+    dateDisplay.textContent = today.toLocaleDateString('en-US', options);
+  }
+
+  // 2. Fetch and Update Content
+  fetchDailyContent().then(data => {
+    if (!data) return;
+
+    if (titleDisplay && data.title) {
+      titleDisplay.textContent = data.title;
+    }
+    
+    // The fetched data is cleaner than the hardcoded HTML.
+    // We will replace the hardcoded content with the fetched content.
+    if (bodyDisplay && data.scripture && data.body) {
+        const scriptureHtml = `<p><strong>${data.scripture}</strong></p>`;
+        const bodyHtml = data.body.map(text => `<p>${text}</p>`).join('');
+        
+        // Replace the entire inner content of the #body element
+        bodyDisplay.innerHTML = scriptureHtml + bodyHtml;
+    }
+
+    if (confessionDisplay && data.confession) {
+      confessionDisplay.textContent = data.confession;
+    }
+
+    // Note: The fetch function doesn't return further study or bible plans,
+    // so those sections will remain as they are in the static HTML.
+
+  }).catch(err => console.error('Error updating devotional:', err));
+}
+
+/**
+ * Fetches daily content.
+ * In a real application, this would call a backend API. Here, it uses a
+ * public CORS proxy which may be unreliable. It includes a fallback to
+ * offline content.
+ */
 async function fetchDailyContent() {
-  //in a real application, you would fetch this data from your backend api, which would handle server-side scraping and caching of the rhapsody content. here, we will simulate this with a direct fetch to a cors proxy, but be aware that this may not work in all browsers due to cors restrict and the external site's policies.   
-  
   try {
     // Use a CORS proxy to fetch the content from the Rhapsody website
     const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://read.rhapsodyofrealities.org/');
@@ -400,9 +641,3 @@ async function fetchDailyContent() {
     };
   }
 }
-
-/**
- * Initializes the Rhapsody Video Challenge functionality. 
- * note:this is a simplified implementation for demonstration purposes. in production, you would want to handle more edige cases, optimize performance, and ensure accessible.
- * 
- */function initvideochallenage(){}

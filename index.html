@@ -4,194 +4,151 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE LAST MAN</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-             @import url(https://fonts.googleapis.com/css?family=Google+Sans+Text);
-        html {
-          font-family: 'Google Sans Text', 'Google Sans';
-          font-size: 14px;
-          color-scheme: light dark;
-          background: light-dark(white, black);
-          color: light-dark(black, white);
-        }
-    </style>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              royal: {
-                50: '#fbf7ff',
-                100: '#f5ecff',
-                200: '#edd6ff',
-                300: '#e0b3ff',
-                400: '#d085ff',
-                500: '#be52ff',
-                600: '#aa26ff',
-                700: '#9414e8',
-                800: '#7a14be',
-                900: '#641398',
-                950: '#460073',
-              },
-              gold: {
-                400: '#fbbf24',
-                500: '#f59e0b',
-                600: '#d97706',
-              }
-            },
-            fontFamily: {
-              serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-            }
-          }
-        }
-      }
-    </script>
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="traditional-styles.css">
 </head>
-   <body class="bg-gray-50 text-gray-900">
+  <body>
     <div id="root">
-      <div class="min-h-screen flex flex-col font-sans bg-fixed bg-cover bg-center text-gray-900"
-       style="background-image: url(&quot;https://tse2.mm.bing.net/th/id/OIP.REMuCZYQVu6axFNLWqG5XwHaDu?pid=Api&amp;P=0&amp;h=220&quot;);">
-        <div class="flex flex-col min-h-screen bg-royal-900/60 backdrop-blur-[2px]">
-          <header class="bg-royal-950/95 backdrop-blur-md text-white sticky top-0 z-40 shadow-xl border-b border-gold-600">
-            <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div class="flex items-center gap-3 cursor-pointer">
-        <div class="bg-gold-500 p-2 rounded-lg text-royal-950">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" 
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-          class="lucide lucide-book-open" aria-hidden="true">
-          <path d="M12 7v14"></path>
-          <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
-        </svg>
-        </div>
-
-        <div>
-          <h1 class="text-2xl font-serif font-black tracking-widest text-gold-500">THE LAST MAN</h1>
-          <p class="text-[10px] text-royal-200 hidden md:block italic">"The life-changing truths in this last days..."</p>
-        </div>
-
-      </div>
-      <form class="flex-1 max-w-md">
-        <div class="relative group">
-          <input placeholder="Search Rhapsody..." class="w-full bg-royal-900/80 border border-royal-700 rounded-full py-2 pl-10 pr-4 text-sm text-white
-           placeholder-royal-300 focus:outline-none focus:border-gold-500" type="text" value="">
-           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-search absolute left-3 top-2.5 text-royal-400" aria-hidden="true">
-            <path d="m21 21-4.34-4.34"></path>
-            <circle cx="11" cy="11" r="8"></circle>
-          </svg>
-        </div>
-      </form>
-      <div class="flex items-center gap-4">
-        <button class="hidden md:flex items-center gap-1 text-xs text-royal-300 hover:text-white transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" 
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-          class="lucide lucide-database" aria-hidden="true">
-          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-          <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
-          <path d="M3 12A9 3 0 0 0 21 12"></path>
-        </svg>Admin
-      </button>
-      <div class="flex items-center gap-2 bg-royal-900/80 px-3 py-1 rounded-full border border-royal-800">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock text-gold-500" 
-        aria-hidden="true">
-        <path d="M12 6v6l4 2"></path>
-        <circle cx="12" cy="12" r="10"></circle>
-      </svg>
-      <span class="font-mono text-sm">0:00</span>
-    </div>
-  </div>
-</div>
-</header>
-<main class="flex-grow container mx-auto px-4 py-8">
-  <div class="max-w-4xl mx-auto">
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="md:col-span-2 space-y-6">
-        <article class="bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-xl border-t-4 border-gold-500">
-          <div class="mb-6 rounded-xl overflow-hidden shadow-md">
-            <img alt="Rhapsody of Realities" class="w-full h-auto" src="https://rhapsodyofrealities.b-cdn.net/give.rhapsodyofrealities.org/new_lingual_banner.png">
-          </div>
-          <div class="card-body">
-                            <div class="mb-5">
-                                <p class="text-muted text-small mb-0 font-weight-light" style="text-align: center; padding-bottom: 10px; text-transform: uppercase;" id="devo_date">Mon Feb 16 2026</p>
-                                <center> <img src="../views/img/loading.gif" data-nopreview="true" id="loadinggif" style="display: none;">
-                                </center>
-                                <h5 class="card-title underline notranslate" id="title" style="font-size: 20px; font-weight: 700; text-align: center; font-family: var(--font-heading); color:#545153"><span id="clean_title">THE POOR IN SPIRIT</span></h5>
-                            </div>
-
-                            <div id="main_content">
-                                <div>
-                                    <p class="notranslate" id="body" style="font-family: var(--font-body);"><p><strong>Blessed are the poor in spirit: for theirs is the kingdom of heaven (</strong><a href="https://bibleapi.rhapsodyofrealities.org/Matthew%205:3%20kjv"><strong>Matthew 5:3</strong></a><strong>).</strong></p><p>When the Lord Jesus said, “Blessed are the poor in spirit,” He wasn’t referring to those who lack material possessions. Rather, He meant those who, in their spirits, have given up everything to God. These are people who don't hold anything back in their service of the Lord. You may see them surrounded by abundance, yet in their hearts, they’ve counted those things as nothing. They can give and spend anything for the sake of the Gospel.</p><p>The Apostle Paul expressed this in <a href="https://bibleapi.rhapsodyofrealities.org/Philippians%203:8%20kjv">Philippians 3:8</a> when he said, “<i>Yea doubtless, and I count all things but loss for the excellency of the knowledge of Christ Jesus my Lord....”</i> You must come to that point in your life where the only thing that truly matters is the purpose of Christ, His eternal Kingdom, and the advancement of the Gospel of His salvation.</p><p>People may see you with beautiful possessions but those things don’t have dominion over you. The Spirit of God can tell you to give everything as an offering, and there’ll be no hesitation or argument. That’s what it means to be poor in spirit; you’ve relinquished ownership of everything to God. You have a heart that’s completely yielded to Him in love. Your satisfaction isn’t in the fleeting pleasures of this world but in Christ alone.</p><p>Notice what the Lord said about those who live this way; they’re the ones to whom the Kingdom of heaven belongs. The “kingdom of heaven” is the divine order of Christ’s dominion established in the earth. It’s the life and authority of heaven manifested here and now to bless and transform men’s lives. The poor in spirit dispense the glories of the Kingdom and live out heaven’s realities on earth. Hallelujah!</p></p>
-                                </div>
-
-                                <div>
-                                    <h5 class="card-title bold-title-gray">
-                                        Prayer / Confession</h5>
-                                    <p class="notranslate" id="confessions" style="background: aliceblue; padding: 25px;">Dear Father, I thank you for bringing me to a place of total submission to your will and purpose. My heart is yielded to you completely; nothing in this world holds my affection above your will. I live only for the purpose of the Gospel, to saturate the world with the Word. I’m a steward of divine treasures, using all that I have for your glory and the expansion of your Kingdom, in Jesus’ Name. Amen.</p>
-                                </div>
-
-                                <div>
-                                    <h5 class="card-title bold-title-gray">
-                                        Further study </h5>
-                                    <p class="notranslate" style="text-align: center;" id="further_study">Philippians 3:7-8; Matthew 6:19-21; Matthew 6:33</p>
-                                </div>
-
-                                <div>
-                                    <h5 class="card-title bold-title-gray">
-                                        1-year bible reading plan </h5>
-                                    <p class="notranslate" style="text-align: center;" id="ba">Mark 2:1-22; Leviticus 9-10</p>
-                                </div>
-
-                                <div>
-                                    <h5 class="card-title bold-title-gray">
-                                        2-year bible reading plan </h5>
-                                    <p class="notranslate" style="text-align: center;" id="bb">Acts 18:24-28; Acts 19:1-7; Psalm 23-24</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                  <div class="mt-10 p-6 bg-gradient-to-r from-royal-900 to-royal-800 rounded-2xl text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border-2 border-gold-500">
-                    <div class="flex items-center gap-4">
-                      <div class="bg-gold-500 p-3 rounded-full text-royal-950 animate-bounce">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone" aria-hidden="true">
-                        <rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
-                        <path d="M12 18h.01"></path>
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="text-xl font-bold">Never Miss a Day!</h4>
-                      <p class="text-sm text-royal-200">Study on the go with the Rhapsody App.</p>
-                    </div>
-                  </div>
-                  <a href="https://lwappstore.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-gold-500 hover:bg-gold-600 text-white px-8 py-3 rounded-full font-black 
-                  text-lg shadow-lg transform hover:scale-105 transition-all whitespace-nowrap">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" 
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-                  class="lucide lucide-download" aria-hidden="true">
-                  <path d="M12 15V3"></path>
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <path d="m7 10 5 5 5-5"></path>
-                </svg> DOWNLOAD NOW</a>
+      <div class="main-layout">
+        <div class="main-overlay">
+          <header class="site-header">
+            <div class="header-content">
+              <div class="brand-container">
+                <div class="logo-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" 
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                  class="lucide lucide-book-open" aria-hidden="true">
+                  <path d="M12 7v14"></path>
+                  <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
+                </svg>
+                </div>
+                <div>
+                  <h1 class="site-title">THE LAST MAN</h1>
+                  <p class="site-subtitle">"The life-changing truths in this last days..."</p>
+                </div>
               </div>
-              <div class="mt-10 pt-6 border-t">
-                <h3 class="text-center text-gray-500 font-bold uppercase text-xs mb-4">Share this Rhapsody</h3>
-                <div class="flex flex-wrap justify-center gap-4">
-                  <a href="https://whatsapp.com" target="_blank" class="flex items-center gap-2 bg-gold-500  hover">
-                    <button class="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full transform hover:scale-105 transition-all">
+              <form class="search-form">
+                <div class="search-input-wrapper">
+                  <input placeholder="Search Rhapsody..." class="search-input" type="text" value="">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   class="lucide lucide-search search-icon" aria-hidden="true">
+                   <path d="m21 21-4.34-4.34"></path>
+                   <circle cx="11" cy="11" r="8"></circle>
+                 </svg>
+                </div>
+              </form>
+              <div class="header-actions">
+                <button class="transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" 
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                  class="lucide lucide-database" aria-hidden="true">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+                  <path d="M3 12A9 3 0 0 0 21 12"></path>
+                </svg>Admin
+              </button>
+              <div class="clock-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock text-gold-500" 
+                aria-hidden="true">
+                <path d="M12 6v6l4 2"></path>
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+              <span class="time-display">0:00</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main-content">
+        <div class="content-grid">
+          <div class="article-main">
+              <article class="article-card">
+                <div class="image-section">
+                  <img alt="Rhapsody of Realities" class="w-full h-auto" src="https://rhapsodyofrealities.b-cdn.net/give.rhapsodyofrealities.org/new_lingual_banner.png">
+                </div>
+                <div class="article-body">
+                  <div class="devotional-header">
+                    <p class="date-display" id="devo_date">Mon Feb 16 2026</p>
+                    <center> <img src="../views/img/loading.gif" data-nopreview="true" id="loadinggif" style="display: none;">
+                    </center>
+                    <h5 class="devotional-title"><span id="clean_title">BORN INTO DIVINITY</span></h5>
+                  </div>
+
+                  <div class="read-more-section"><button class="read-more-btn"><a href="MARCH 2026 RHAPSODY OF REALITIES.pdf" target="_blank" rel="noopener" download="MARCH 2026 RHAPSODY OF REALITIES.pdf" class="read-more-link">
+                              TO READ MORE RHAPSODY DAILY
+                          </a></button></div>
+                          
+                  <div id="main_content">
+                      <div id="body">
+                          <p><strong>Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new (</strong><a href="https://bibleapi.rhapsodyofrealities.org/2%20Corinthians%205:17%20kjv"><strong>2 Corinthians 5:17</strong></a><strong>).</strong></p>
+                          <p>So, being born again, you were born into God, into divinity, by the Word, through the Spirit of God. You were actually received into Christ. That’s why the Bible says, <i>“...If any man be in Christ, he is a new creature...”</i> (<a href="https://bibleapi.rhapsodyofrealities.org/2%20Corinthians%205:17%20kjv">2 Corinthians 5:17</a>); he’s born anew with the God-life and God-nature.</p>
+                      </div>
+
+                      <div>
+                          <h5 class="bold-title-gray">
+                              Prayer / Confession</h5>
+                          <p id="confessions">Dear Father, I thank you for bringing me to a place of total submission to your will and purpose. My heart is yielded to you completely; nothing in this world holds my affection above your will. I live only for the purpose of the Gospel, to saturate the world with the Word. I’m a steward of divine treasures, using all that I have for your glory and the expansion of your Kingdom, in Jesus’ Name. Amen.</p>
+                      </div>
+
+                      <div>
+                          <h5 class="bold-title-gray">
+                              Further study </h5>
+                          <p class="study-item" id="further_study">Philippians 3:7-8; Matthew 6:19-21; Matthew 6:33</p>
+                      </div>
+
+                      <div>
+                          <h5 class="bold-title-gray">
+                              1-year bible reading plan </h5>
+                          <p class="study-item" id="ba">Mark 2:1-22; Leviticus 9-10</p>
+                      </div>
+
+                      <div>
+                          <h5 class="bold-title-gray">
+                              2-year bible reading plan </h5>
+                          <p class="study-item" id="bb">Acts 18:24-28; Acts 19:1-7; Psalm 23-24</p>
+                      </div>
+                  </div>
+                </div>
+                
+                <div class="app-promo">
+                  <div>
+                    <div class="app-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone" aria-hidden="true">
+                      <rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
+                      <path d="M12 18h.01"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="app-title">Never Miss a Day!</h4>
+                    <p class="app-subtitle">Study on the go with the Rhapsody App.</p>
+                  </div>
+                </div>
+                <a href="https://lwappstore.com" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                class="lucide lucide-download" aria-hidden="true">
+                <path d="M12 15V3"></path>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <path d="m7 10 5 5 5-5"></path>
+              </svg> DOWNLOAD NOW</a>
+            </div>
+            <div class="sidebar-section">
+              <div class="share-section">
+                <h3 class="share-title">Share this Rhapsody</h3>
+                <div class="share-buttons">
+                  <a href="#" onclick="shareToWhatsApp(event)" target="_blank">
+                    <button class="share-button whatsapp">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" 
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone" 
                   aria-hidden="true">
-                  <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 
+                  <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2
                   2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path>
                 </svg> WhatsApp</button>
                   </a>
 
-                  <a href="https://facebook.com" target="_blank">
-                     <button class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full transform 
-                hover:scale-105 transition-all">
+                  <a href="#" onclick="shareToFacebook(event)" target="_blank">
+                      <button class="share-button facebook">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" 
                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
                 class="lucide lucide-facebook" aria-hidden="true">
@@ -199,52 +156,41 @@
               </svg> Facebook</button>
 
                   </a>
-                <a href="https:twitter.com" target="_blank"> 
-                  <button class="flex items-center gap-2 bg-sky-500 text-white px-4 py-2 rounded-full transform hover:scale-105 transition-all">
+                <a href="#" onclick="shareToTwitter(event)" target="_blank"> 
+                  <button class="share-button twitter">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter" aria-hidden="true">
                 <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 
                 1.1 0 3-1.2 3-1.2z"></path>
               </svg> Twitter</button>
               </a>
-               
+                
             </div>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <div class="p-8 text-center">
-          <div class="w-16 h-16 bg-royal-100 text-royal-700 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume2 lucide-volume-2" aria-hidden="true">
-              <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path>
-              <path d="M16 9a5 5 0 0 1 0 6"></path>
-              <path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path>
-            </svg>
-          </div>
-          
-          <div class="bg-royal-50 p-6 rounded-xl border border-royal-200 mb-8 shadow-inner">
-            <h2 class="text-3xl font-serif font-bold text-royal-900 mb-4">Prayer of Salvation</h2>
-          <p class="text-gray-600 mb-6 italic text-lg leading-relaxed">"We trust you have been blessed by this devotional. I would ask you to give your life to the Lord Jesus Christ by Praying this prayer after me and believe from all your heart in the words:"</p>
-            <p class="text-xl md:text-2xl font-serif font-medium text-royal-900 leading-relaxed">"O Lord God, I believe with all my heart in Jesus Christ, Son of the living God. I believe He died for me and God raised Him from the dead. I believe He's alive today. I confess with my mouth that Jesus Christ is the Lord of my life from this day. Through Him and in His Name, I have eternal life; I'm born again. Thank you Lord for saving my soul! I'm now a child of God. Hallelujah!"</p></div><div class="flex flex-col md:flex-row gap-4 justify-center items-center"><button class="flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white transition-all transform hover:scale-105 bg-royal-600 hover:bg-royal-700"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume2 lucide-volume-2" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>Listen to Prayer</button><button class="flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white bg-gold-500 hover:bg-gold-600 transition-all transform hover:scale-105 shadow-lg"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-          <path d="m9 11 3 3L22 4"></path>
-        </svg>I Prayed This Prayer</button>
-      </div>
-    </div>
-        
-        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 border-t-4 border-gold-500 mt-8 overflow-hidden relative">
-          <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles" aria-hidden="true">
-            <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 
-            1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 
-            1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path>
-            <path d="M20 2v4"></path>
-            <path d="M22 4h-4"></path>
-            <circle cx="4" cy="20" r="2"></circle>
+      <div class="prayer-section" id="salvation-prayer-card">
+        <div class="prayer-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume2 lucide-volume-2" aria-hidden="true">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path>
+            <path d="M16 9a5 5 0 0 1 0 6"></path>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path>
           </svg>
         </div>
         
-        <div class="text-center mb-10">
-          <h3 class="text-3xl font-serif font-bold text-royal-900 mb-3 flex items-center justify-center gap-3">
+        <div class="prayer-card">
+          <h2 class="prayer-title">Prayer of Salvation</h2>
+        <p class="prayer-subtitle">"We trust you have been blessed by this devotional. I would ask you to give your life to the Lord Jesus Christ by Praying this prayer after me and believe from all your heart in the words:"</p>
+          <p class="prayer-text">"O Lord God, I believe with all my heart in Jesus Christ, Son of the living God. I believe He died for me and God raised Him from the dead. I believe He's alive today. I confess with my mouth that Jesus Christ is the Lord of my life from this day. Through Him and in His Name, I have eternal life; I'm born again. Thank you Lord for saving my soul! I'm now a child of God. Hallelujah!"</p></div><div class="prayer-actions"><button class="prayer-button listen-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume2 lucide-volume-2" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>Listen to Prayer</button><button class="prayer-button prayed-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+        <path d="m9 11 3 3L22 4"></path>
+      </svg>I Prayed This Prayer</button>
+    </div>
+  </div>
+      
+      <div class="testimony-section">
+        <div class="testimony-header">
+          <h3 class="testimony-title">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-share2 lucide-share-2 text-gold-500" 
             aria-hidden="true">
@@ -254,163 +200,147 @@
             <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
             <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
           </svg>Share Your Testimony</h3>
-          <p class="text-gray-600 max-w-2xl mx-auto italic text-lg leading-relaxed">
+          <p class="testimony-subtitle">
             "The life-changing truths in this place, share your testimony and let the world see 
             how Rhapsody of Realities changes lives."</p>
           </div>
           
-          <div class="max-w-2xl mx-auto">
-            <div class="flex flex-col space-y-4">
-              <div class="flex items-center gap-2 mb-1">
-                <div class="p-2 bg-royal-100 rounded-lg text-royal-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen-tool" aria-hidden="true">
-                  <path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 
-                  1 0 0 1 0 1.414z"></path>
-                  <path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L1 18"></path>
-                  <path d="m2.3 2.3 7.286 7.286"></path>
-                  <circle cx="11" cy="11" r="2"></circle>
-                </svg>
-              </div><h4 class="text-xl font-bold text-royal-900 font-serif">Your Story Matters</h4>
-            </div>
-            
-            <p class="text-sm text-gray-500 leading-relaxed">Write down how the Word through Rhapsody has transformed
-               your situation. Every story is a seed of faith for someone else.</p>
-               <div class="relative">
-                <textarea placeholder="I started reading Rhapsody of Realities and my life began to change..." 
-                class="w-full min-h-[300px] p-6 rounded-2xl border border-gray-200 focus:border-gold-500 
-                focus:ring-4 focus:ring-gold-100 outline-none resize-none bg-gray-50 text-gray-800 text-lg leading-relaxed 
-                shadow-inner transition-all"></textarea>
+          <div class="testimony-form">
+            <div class="testimony-form-header">
+              <div class="testimony-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen-tool" aria-hidden="true">
+                <path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 
+                1 0 0 1 0 1.414z"></path>
+                <path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L1 18"></path>
+                <path d="m2.3 2.3 7.286 7.286"></path>
+                <circle cx="11" cy="11" r="2"></circle>
+              </svg>
+            </div><h4 class="testimony-form-title">Your Story Matters</h4>
+          </div>
+          
+          <p class="text-sm text-gray-500 leading-relaxed">Write down how the Word through Rhapsody has transformed
+              your situation. Every story is a seed of faith for someone else.</p>
+              <div class="textarea-wrapper">
+              <textarea placeholder="I started reading Rhapsody of Realities and my life began to change..." 
+              class="testimony-textarea"></textarea>
 
-                <div class="absolute bottom-4 right-4 text-xs font-mono text-gray-400 pointer-events-none 
-                bg-white/90 px-3 py-1 rounded-full border border-gray-100">0 characters</div>
-              </div>
+              <div class="char-count" id="char-count">0 characters</div>
             </div>
+          </div>
             
-            <div class="mt-10">
-              <button disabled="" class="w-full py-5 rounded-xl flex items-center justify-center gap-3 
-              font-bold text-xl shadow-xl transform transition-all duration-300
-              bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="2" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-              stroke-width="2"stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send" aria-hidden="true">
-              <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path>
-              <path d="m21.854 2.147-10.94 10.939"></path>
-            </svg>Submit My Testimony</button>
-            
-            <div class="mt-6 flex flex-col items-center gap-2">
-              <p class="text-xs text-gray-400 flex items-center gap-1.5 bg-gray-50 px-4 py-2 rounded-full border border-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail text-gold-500" aria-hidden="true">
-                <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
-                <rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>Directly sent to: 
-                <span class="font-semibold text-royal-700">abrahammartin5858@gmail.com</span>
-              </p>
-              <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Powered by THE LAST MAN</p>
-            </div>
+          <div class="testimony-actions">
+            <button disabled="" class="submit-btn bg-gray-100 text-gray-400 cursor-not-allowed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="2" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+            stroke-width="2"stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send" aria-hidden="true">
+            <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path>
+            <path d="m21.854 2.147-10.94 10.939"></path>
+          </svg>Submit My Testimony</button>
+          
+          <div class="contact-info">
+            <p class="contact-text">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail text-gold-500" aria-hidden="true">
+              <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>Directly sent to: 
+              <span class="font-semibold text-royal-700">abrahammartin5858@gmail.com</span>
+            </p>
+            <p class="powered-by">Powered by THE LAST MAN</p>
           </div>
         </div>
       </div>
+    </div>
+    
+    <div class="sidebar-section">
+      <div class="video-challenge-header">
+        <div class="video-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video" aria-hidden="true">
+          <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path>
+          <rect x="2" y="6" width="14" height="12" rx="2"></rect>
+        </svg>
+      </div>
       
-      <div class="bg-royal-950 rounded-2xl shadow-2xl p-6 md:p-8 mt-8 border-4 border-gold-600 text-white relative overflow-hidden">
-        <div class="text-center mb-8 relative z-10">
-          <div class="inline-flex items-center justify-center p-3 bg-gold-500 rounded-full text-royal-950 mb-4 shadow-lg animate-pulse">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video" aria-hidden="true">
-            <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path>
-            <rect x="2" y="6" width="14" height="12" rx="2"></rect>
-          </svg>
-        </div>
+      <h3 class="video-title">Rhapsody Video Challenge</h3>
+      <p class="video-subtitle">Record yourself reading today's devotional and share the Gospel as a Reel or Short!</p>
+    </div>
+    
+    <div class="video-container">
+      <video class="w-full h-full object-cover" id="challenge-video" src="blob:https://27son1kbygd39eqb3vofr22m89dgb9las1rzpepnik81m84jx1-h868144788.scf.usercontent.goog/dac72714-f15c-4f72-95a9-3314289cb7f7" controls=""></video>
+    </div>
+    
+    <div class="video-controls">
+      <div class="video-actions" id="post-record-actions">
+        <button class="video-button retake" id="record-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw" aria-hidden="true">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+        </svg> Retake</button>
         
-        <h3 class="text-3xl font-serif font-bold text-white mb-2">Rhapsody Video Challenge</h3>
-        <p class="text-royal-200">Record yourself reading today's devotional and share the Gospel as a Reel or Short!</p>
-      </div>
-      
-      <div class="relative mx-auto max-w-xs md:max-w-sm aspect-[9/16] bg-black rounded-2xl overflow-hidden border-2 border-royal-700 shadow-2xl">
-        <video class="w-full h-full object-cover" src="blob:https://27son1kbygd39eqb3vofr22m89dgb9las1rzpepnik81m84jx1-h868144788.scf.usercontent.goog/dac72714-f15c-4f72-95a9-3314289cb7f7" controls=""></video>
-      </div>
-      
-      <div class="mt-8 flex flex-col items-center gap-6"><div class="w-full space-y-6">
-        <div class="flex flex-wrap justify-center gap-3">
-          <button class="bg-royal-800 hover:bg-royal-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw" aria-hidden="true">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-            <path d="M3 3v5h5"></path>
-          </svg> Retake</button>
-          
-          <button class="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-royal-950 px-8 py-3 rounded-xl font-black 
-          text-lg flex items-center gap-2 shadow-lg transform hover:scale-105 transition-all">
+        <button class="video-button share" id="share-btn">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone" aria-hidden="true">
           <rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
           <path d="M12 18h.01"></path>
         </svg> Share via App</button>
 
-        <button class="bg-white/10 hover:bg-white/20 p-3 rounded-xl text-white transition-all" title="Download Only">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download" aria-hidden="true">
-          <path d="M12 15V3"></path>
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <path d="m7 10 5 5 5-5"></path>
-        </svg>
-      </button>
-    </div>
+      <button class="video-button download" id="download-btn" title="Download Only">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download" aria-hidden="true">
+        <path d="M12 15V3"></path>
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <path d="m7 10 5 5 5-5"></path>
+      </svg>
+    </button>
+  </div>
 
-    <div class="bg-royal-900/50 p-4 rounded-xl border border-royal-800">
-      <p class="text-center text-xs text-royal-300 mb-3 uppercase tracking-wider font-semibold">Or download &amp; post to:</p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="https://facebook.com[url-of-your-video]" target="_blank">
-          <button class="flex flex-col items-center gap-1 group">
-          <div class="w-12 h-12 bg-[#1877F2] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" 
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook" aria-hidden="true">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-          </svg>
-        </div>
-        <span class="text-[10px] text-gray-300">Facebook</span>
-      </button>
-        </a>
-      
-      <a href="https://twitter.com" target="_blank">
-        <button class="flex flex-col items-center gap-1 group">
-        <div class="w-12 h-12 bg-black border border-gray-700 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+  <div class="video-info">
+    <p class="video-info-title">Or download & post to:</p>
+    <div class="video-platforms">
+      <a href="https://facebook.com[url-of-your-video]" target="_blank" class="platform-button facebook">
+        <div class="platform-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" 
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter" aria-hidden="true">
-          <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 .1 0 3-1.2 3-1.2z"></path>
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook" aria-hidden="true">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
         </svg>
       </div>
-      <span class="text-[10px] text-gray-300">X / Twitter</span>
-    </button>
-      </a>
-    
-    <a href="https://youtube.com" target="_blank">
-      <button class="flex flex-col items-center gap-1 group">
-      <div class="w-12 h-12 bg-[#FF0000] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+      <span class="platform-name">Facebook</span>
+    </a>
+      
+    <a href="https://twitter.com" target="_blank" class="platform-button twitter">
+      <div class="platform-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" 
-        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-youtube" aria-hidden="true">
-        <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
-        <path d="m10 15 5-3-5-3z"></path>
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter" aria-hidden="true">
+        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 .1 0 3-1.2 3-1.2z"></path>
       </svg>
     </div>
-    <span class="text-[10px] text-gray-300">YouTube</span>
-  </button>
-    </a>
+    <span class="platform-name">X / Twitter</span>
+  </a>
   
-  <a href="https://instagram.com" target="_blank">
-    <button class="flex flex-col items-center gap-1 group">
-    <div class="w-12 h-12 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] rounded-full flex items-center
-     justify-center shadow-lg group-hover:scale-110 transition-transform">
-     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram" aria-hidden="true">
-     <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
-     </line>
+  <a href="https://youtube.com" target="_blank" class="platform-button youtube">
+    <div class="platform-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" 
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-youtube" aria-hidden="true">
+      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+      <path d="m10 15 5-3-5-3z"></path>
     </svg>
   </div>
-  <span class="text-[10px] text-gray-300">Instagram</span>
-</button>
-  </a>
+  <span class="platform-name">YouTube</span>
+</a>
+
+<a href="https://instagram.com" target="_blank" class="platform-button instagram">
+  <div class="platform-icon">
+   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram" aria-hidden="true">
+   <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+   <line x1="17.5" x2="17.51" y1="6.5" y2="6.5">
+   </line>
+  </svg>
+</div>
+<span class="platform-name">Instagram</span>
+</a>
 </div>
 </div>
 </div>
@@ -418,27 +348,26 @@
 </div>
 </div>
 
-<div class="space-y-6">
-  <div class="bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-lg text-center border">
-    <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4 border-4 border-gold-500">
-      <img alt="Pastor Chris" class="w-full h-full object-cover" 
-      src="https://flatimes.com/wp-content/uploads/2024/10/Pastor-Chris-O.jpg">
+  <div class="pastor-section">
+    <div class="pastor-section">
+      <div class="pastor-photo">
+        <img alt="Pastor Chris" class="w-full h-full object-cover" 
+        src="https://flatimes.com/wp-content/uploads/2024/10/Pastor-Chris-O.jpg">
+      </div>
+      <h3 class="pastor-name">Pastor Chris Oyakhilome</h3>
+      <p class="pastor-title">Author, Rhapsody of Realities</p>
+      <button class="pastor-button">View Books</button>
     </div>
-    <h3 class="font-bold text-xl text-royal-900">Pastor Chris Oyakhilome</h3>
-    <p class="text-sm text-gray-500 mb-4">Author, Rhapsody of Realities</p>
-    <button class="w-full bg-royal-900 text-white py-2 rounded-full text-sm font-medium hover:bg-royal-800">View Books</button>
   </div>
-</div>
-</div>
 </div>
 </main>
 
-<footer class="bg-gray-900/95 text-gray-400 py-12 border-t border-gray-800">
-  <div class="container mx-auto px-4 text-center">
-    <h2 class="text-2xl font-serif font-bold text-gold-500 mb-4">THE LAST MAN</h2>
-    <p class="max-w-2xl mx-auto mb-8 text-sm">Providing divine insights for the end times.
+<footer class="site-footer">
+  <div class="footer-content">
+    <h2 class="footer-title">THE LAST MAN</h2>
+    <p class="footer-description">Providing divine insights for the end times.
        Connect with the Spirit of God daily through the Rhapsody of Realities.</p>
-       <div class="text-xs text-gray-600">© 2026 THE LAST MAN. All Rights Reserved.</div>
+       <div class="footer-copyright">© 2026 THE LAST MAN. All Rights Reserved.</div>
       </div>
     </footer>
   </div>
@@ -446,6 +375,5 @@
 </div>
 
 <script src="text.js"></script>
-<script type="module" onerror="console.warn('Failed to load the app. Try reloading it.')">import '@/index';</script>
 </body>
 </html>
