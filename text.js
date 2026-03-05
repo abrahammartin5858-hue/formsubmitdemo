@@ -820,10 +820,10 @@ async function fetchDailyContent() {
         body: [
           "From our opening scripture above, we read something quite sobering. Speaking through the Prophet Malachi, God said, “Your words have been stout against me.",
           "Imagine that men would speak words that stand against God. Yet, in their ignorance, they asked, What have we spoken against you?",
-          "They didn’t even realize they were speaking in defiance to God. This is still happening today."
+          "They didn’t even realize they were speaking in defiance to God. This is still happening today..............."
           
         ],
-        confession: "I walk in the authority of Christ. Circumstances align with my words because I speak in the Name of Jesus. I am victorious in all things. Hallelujah!"
+        
     };
   }
 }
