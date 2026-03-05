@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working Video Challenge - THE LAST MAN</title>
+    <style>
+        :root {
+            --royal-50: #fbf7ff;
+            --royal-100: #f5ecff;
+            --royal-200: #edd6ff;
+            --royal-300: #d8b4fe;
+            --royal-400: #c084fc;
+            --royal-500: #be52ff;
+            --royal-600: #aa26ff;
+            --royal-700: #7e22ce;
+            --royal-800: #701ab9;
+            --royal-900: #641398;
+            --royal-950: #460073;
+            
+            --gold-400: #fbbf24;
+            --gold-500: #f59e0b;
+            --gold-600: #d97706;
+            
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--royal-900);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .video-section {
+            background: var(--royal-950);
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            border: 2px solid var(--gold-600);
+            margin-bottom: 20px;
+        }
+
+        .video-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .video-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            background: var(--gold-500);
+            color: var(--royal-950);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .video-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .video-subtitle {
+            color: var(--royal-200);
+            font-size: 0.9rem;
+        }
+
+        .video-container {
+            margin: 20px auto;
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 9/16;
+            background: black;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--royal-700);
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-record {
+            background: var(--royal-800);
+            color: white;
+        }
+
+        .btn-record:hover {
+            background: var(--royal-700);
+            transform: scale(1.05);
+        }
+
+        .btn-share {
+            background: linear-gradient(90deg, var(--gold-500), var(--gold-600));
+            color: var(--royal-950);
+            font-weight: 800;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-share:hover {
+            background: linear-gradient(90deg, var(--gold-400), var(--gold-500));
+            transform: scale(1.05);
+        }
+
+        .btn-download {
+            background: var(--gray-600);
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: var(--gray-700);
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--royal-300);
+            font-weight: 600;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .platforms {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .platforms-title {
+            color: var(--royal-300);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .platform-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .platform-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background: var(--royal-900);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .platform-link:hover {
+            background: var(--royal-800);
+            transform: scale(1.05);
+        }
+
+        /* Status indicators */
+        .recording-pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Video Challenge - Working Version</h1>
+        
+        <div class="video-section">
+            <div class="video-header">
+                <div class="video-icon">🎥</div>
+                <div class="video-title">Rhapsody Video Challenge</div>
+                <div class="video-subtitle">Record yourself reading today's devotional and share the Gospel!</div>
+            </div>
+
+            <div class="video-container">
+                <video id="challenge-video" playsinline></video>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-record" id="record-btn">
+                    <span>🔴</span> <span id="record-text">Start Recording</span>
+                </button>
+                
+                <button class="btn btn-share hidden" id="share-btn">
+                    <span>📱</span> Share via App
+                </button>
+                
+                <button class="btn btn-download hidden" id="download-btn">
+                    <span>⬇️</span> Download
+                </button>
+            </div>
+
+            <div class="status" id="status-text">Ready to record</div>
+
+            <div class="platforms">
+                <div class="platforms-title">Or share to social media</div>
+                <div class="platform-links">
+                    <a href="#" class="platform-link" onclick="shareToFacebook(event)">Facebook</a>
+                    <a href="#" class="platform-link" onclick="shareToTwitter(event)">Twitter</a>
+                    <a href="#" class="platform-link" onclick="shareToYouTube(event)">YouTube</a>
+                    <a href="#" class="platform-link" onclick="shareToInstagram(event)">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Video Challenge Implementation
+        let mediaRecorder;
+        let recordedChunks = [];
+        let stream;
+        let videoBlobUrl = null;
+        let videoBlob = null;
+        let recordingState = 'idle'; // 'idle', 'recording', 'recorded'
+        let timerInterval;
+
+        // DOM Elements
+        const videoPlayer = document.getElementById('challenge-video');
+        const recordBtn = document.getElementById('record-btn');
+        const shareBtn = document.getElementById('share-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const statusText = document.getElementById('status-text');
+        const recordText = document.getElementById('record-text');
+
+        // Initialize UI
+        updateUI('idle');
+
+        // Record Button Handler
+        recordBtn.addEventListener('click', async () => {
+            if (recordingState === 'idle') {
+                await startRecording();
+            } else if (recordingState === 'recording') {
+                stopRecording();
+            } else if (recordingState === 'recorded') {
+                resetRecording();
+            }
+        });
+
+        // Download Button Handler
+        downloadBtn.addEventListener('click', () => {
+            if (!videoBlobUrl) {
+                alert('No video to download. Please record a video first.');
+                return;
+            }
+            
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = videoBlobUrl;
+            a.download = 'rhapsody-video-challenge.webm';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
+        // Share Button Handler
+        shareBtn.addEventListener('click', async () => {
+            if (!videoBlob) {
+                alert('No video to share. Please record a video first.');
+                return;
+            }
+
+            if (videoBlob && navigator.share && navigator.canShare) {
+                const file = new File([videoBlob], 'rhapsody-video-challenge.webm', { type: 'video/webm' });
+                
+                if (navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: 'My Rhapsody Video Challenge',
+                            text: 'Check out my video reading today\'s Rhapsody of Realities!',
+                        });
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            console.error('Error sharing:', err);
+                            alert('An error occurred while trying to share.');
+                        }
+                    }
+                } else {
+                    alert('Sharing this file type is not supported on your device.');
+                }
+            } else {
+                alert('Web Share API is not available on your browser, or there is no video to share.');
+            }
+        });
+
+        // Start Recording Function
+        async function startRecording() {
+            try {
+                // Check browser support
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('Media recording is not supported in this browser.');
+                }
+
+                // Request camera and microphone access
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { width: 300, height: 533 }, // Portrait aspect ratio
+                    audio: true 
+                });
+                
+                videoPlayer.srcObject = stream;
+                videoPlayer.play();
+                updateUI('recording');
+
+                // Initialize MediaRecorder
+                recordedChunks = [];
+                mediaRecorder = new MediaRecorder(stream, { 
+                    mimeType: 'video/webm;codecs=vp9,opus' 
+                });
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data && event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    try {
+                        videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                        videoBlobUrl = URL.createObjectURL(videoBlob);
+                        videoPlayer.srcObject = null;
+                        videoPlayer.src = videoBlobUrl;
+                        videoPlayer.muted = false;
+                        videoPlayer.controls = true;
+                        updateUI('recorded');
+                    } catch (error) {
+                        console.error('Error processing recorded video:', error);
+                        alert('There was an error processing your video. Please try recording again.');
+                        updateUI('idle');
+                    }
+                };
+
+                mediaRecorder.onerror = (error) => {
+                    console.error('MediaRecorder error:', error);
+                    alert('There was an error recording your video. Please try again.');
+                    updateUI('idle');
+                };
+
+                mediaRecorder.start(1000); // Collect data every second
+                startTimer();
+                
+            } catch (err) {
+                console.error("Error accessing media devices.", err);
+                if (err.name === 'NotAllowedError') {
+                    alert("Camera and microphone access was denied. Please allow access and try again.");
+                } else if (err.name === 'NotFoundError') {
+                    alert("No camera or microphone found on this device.");
+                } else {
+                    alert("Could not access camera or microphone. Please check permissions and try again.");
+                }
+                updateUI('idle');
+            }
+        }
+
+        // Stop Recording Function
+        function stopRecording() {
+            try {
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                }
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+                stopTimer();
+            } catch (error) {
+                console.error('Error stopping recording:', error);
+            }
+        }
+
+        // Reset Recording Function
+        function resetRecording() {
+            cleanup();
+            updateUI('idle');
+        }
+
+        // Timer Functions
+        function startTimer() {
+            const startTime = Date.now();
+            const updateTimer = () => {
+                const elapsed = Date.now() - startTime;
+                const mins = Math.floor(elapsed / 60000).toString().padStart(2, '0');
+                const secs = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
+                recordText.textContent = `${mins}:${secs}`;
+            };
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            recordText.textContent = 'Start Recording';
+        }
+
+        // UI Update Function
+        function updateUI(state) {
+            recordingState = state;
+            
+            if (state === 'idle') {
+                recordBtn.innerHTML = '<span>🔴</span> <span id="record-text">Start Recording</span>';
+                recordBtn.className = 'btn btn-record';
+                shareBtn.classList.add('hidden');
+                downloadBtn.classList.add('hidden');
+                statusText.textContent = 'Ready to record';
+                statusText.className = 'status';
+            } else if (state === 'recording') {
+                recordBtn.innerHTML = '<span>⏹️</span> <span id="record-text">00:00</span>';
+                recordBtn.className = 'btn btn-record recording-pulse';
+                shareBtn.classList.add('hidden');
+                downloadBtn.classList.add('hidden');
+                statusText.textContent = 'Recording... Click stop when done';
+                statusText.className = 'status recording-pulse';
+            } else if (state === 'recorded') {
+                recordBtn.innerHTML = '<span>🔄</span> <span id="record-text">Retake</span>';
+                recordBtn.className = 'btn btn-record';
+                shareBtn.classList.remove('hidden');
+                downloadBtn.classList.remove('hidden');
+                statusText.textContent = 'Video recorded successfully!';
+                statusText.className = 'status';
+            }
+        }
+
+        // Cleanup Function
+        function cleanup() {
+            try {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                }
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                }
+                if (videoBlobUrl) {
+                    URL.revokeObjectURL(videoBlobUrl);
+                    videoBlobUrl = null;
+                }
+                videoBlob = null;
+                recordedChunks = [];
+                videoPlayer.src = '';
+                videoPlayer.srcObject = null;
+                videoPlayer.controls = false;
+                videoPlayer.muted = true;
+            } catch (error) {
+                console.error('Error during cleanup:', error);
+            }
+        }
+
+        // Social Sharing Functions
+        window.shareToFacebook = function(event) {
+            event.preventDefault();
+            alert('Facebook sharing would open Facebook with your video. In a real implementation, you would upload the video first.');
+        };
+
+        window.shareToTwitter = function(event) {
+            event.preventDefault();
+            alert('Twitter sharing would open Twitter with your video. In a real implementation, you would upload the video first.');
+        };
+
+        window.shareToYouTube = function(event) {
+            event.preventDefault();
+            alert('YouTube sharing would open YouTube upload page. In a real implementation, you would upload the video first.');
+        };
+
+        window.shareToInstagram = function(event) {
+            event.preventDefault();
+            alert('Instagram sharing would open Instagram. In a real implementation, you would upload the video first.');
+        };
+
+        // Handle page unload to cleanup resources
+        window.addEventListener('beforeunload', cleanup);
+
+        // Handle visibility change to stop recording if page is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && recordingState === 'recording') {
+                stopRecording();
+            }
+        });
+    </script>
+</body>
+</html>

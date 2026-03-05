@@ -134,14 +134,14 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: rgba(100, 19, 152, 0.6);
+  background-color: rgba(109, 8, 118, 0.6);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
 
 /* Header Styles */
 .site-header {
-  background-color: rgba(70, 0, 115, 0.95);
+  background-color: rgba(95, 7, 114, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: white;
@@ -211,7 +211,7 @@ body {
 
 .search-input {
   width: 100%;
-  background-color: rgba(9, 26, 181, 0.8);
+  background-color: rgba(200, 129, 241, 0.8);
   border: 1px solid var(--royal-700);
   border-radius: var(--radius-full);
   padding: 0.5rem 1rem 0.5rem 2.5rem;
@@ -438,7 +438,7 @@ body {
   align-items: center;
   gap: 0.5rem;
   background-color: var(--gold-500);
-  color: var(--royal-950);
+  color: var(--gray-100-950);
   padding: 0.75rem 2rem;
   border-radius: var(--radius-full);
   font-weight: 900;
@@ -1020,6 +1020,135 @@ body {
 
 .pastor-button:hover {
   background-color: var(--royal-800);
+}
+
+/* Video Challenge Enhanced Styles */
+.video-status {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--royal-300);
+  font-weight: 600;
+  min-height: 1.5rem;
+}
+
+.recording-pulse {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.video-button.record-btn {
+  background-color: var(--royal-800);
+  color: white;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.video-button.record-btn:hover {
+  background-color: var(--royal-700);
+  transform: scale(1.05);
+}
+
+.video-button.record-btn.recording-pulse {
+  animation: pulse 1s infinite;
+}
+
+.video-button.share-btn {
+  background: linear-gradient(to right, var(--gold-500), var(--gold-600));
+  color: var(--royal-950);
+  font-weight: 900;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  border: none;
+  cursor: pointer;
+}
+
+.video-button.share-btn:hover {
+  background: linear-gradient(to right, var(--gold-400), var(--gold-500));
+  transform: scale(1.05);
+}
+
+.video-button.download-btn {
+  background-color: var(--gray-600);
+  color: white;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  border: none;
+  cursor: pointer;
+}
+
+.video-button.download-btn:hover {
+  background-color: var(--gray-700);
+}
+
+.video-button.hidden {
+  display: none !important;
+}
+
+/* Enhanced video container styling */
+.video-container {
+  margin: 1rem auto;
+  max-width: 300px;
+  aspect-ratio: 9/16;
+  background-color: black;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  border: 2px solid var(--royal-700);
+  box-shadow: var(--shadow-xl);
+  position: relative;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: black;
+}
+
+/* Enhanced video actions layout */
+.video-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Status text enhancements */
+.video-status {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--royal-300);
+  font-weight: 600;
+  min-height: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.video-status.recording-pulse {
+  color: var(--gold-500);
+  font-weight: 800;
 }
 
 /* Footer */

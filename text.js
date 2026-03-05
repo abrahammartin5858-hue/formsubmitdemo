@@ -9,24 +9,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Initializes the real-time clock in the header.
+ * Optimized to update only at minute boundaries for better performance.
  */
 function initClock() {
   const timeDisplay = document.querySelector('.time-display');
   if (!timeDisplay) {
-    return; // Exit if the clock element isn't found
+    console.warn('Time display element not found');
+    return;
   }
 
-  const updateTime = () => {
-    const now = new Date();
-    timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  let updateTimer = null;
 
-    // More efficient: calculate delay until the next minute starts
-    const seconds = now.getSeconds();
-    const milliseconds = now.getMilliseconds();
-    const delay = (60 - seconds) * 1000 - milliseconds;
-    setTimeout(updateTime, delay > 0 ? delay : 60000); // Schedule next update
+  const updateTime = () => {
+    try {
+      const now = new Date();
+      timeDisplay.textContent = now.toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+
+      // Calculate precise delay until next minute starts
+      const seconds = now.getSeconds();
+      const milliseconds = now.getMilliseconds();
+      const delay = (60 - seconds) * 1000 - milliseconds;
+      
+      // Clear any existing timer and set new one
+      if (updateTimer) clearTimeout(updateTimer);
+      updateTimer = setTimeout(updateTime, Math.max(1000, delay)); // Minimum 1 second delay
+    } catch (error) {
+      console.error('Error updating clock:', error);
+      // Fallback: try again in 1 second
+      if (updateTimer) clearTimeout(updateTimer);
+      updateTimer = setTimeout(updateTime, 1000);
+    }
   };
-  updateTime(); // Initial call to display time immediately
+
+  // Initial call to display time immediately
+  updateTime();
 }
 
 /**
@@ -81,11 +100,10 @@ function initSocialSharing() {
     const title = document.getElementById('clean_title')?.textContent || '';
     const body = document.getElementById('body')?.textContent || '';
     const date = document.getElementById('devo_date')?.textContent || '';
-    const furtherStudy = document.getElementById('further_study')?.textContent || '';
     const bibleReading = document.getElementById('ba')?.textContent || '';
     
     // Create share message with devotional content
-    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body}\n\nFurther Study: ${furtherStudy}\n\nBible Reading: ${bibleReading}\n\n${window.location.href}`;
+    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body}\n\nBible Reading: ${bibleReading}\n\n${window.location.href}`;
     
     // Encode the message for URL
     const encodedMessage = encodeURIComponent(shareMessage);
@@ -105,11 +123,10 @@ function initSocialSharing() {
     const title = document.getElementById('clean_title')?.textContent || '';
     const body = document.getElementById('body')?.textContent || '';
     const date = document.getElementById('devo_date')?.textContent || '';
-    const furtherStudy = document.getElementById('further_study')?.textContent || '';
     const bibleReading = document.getElementById('ba')?.textContent || '';
     
     // Create share message with devotional content
-    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body}\n\nFurther Study: ${furtherStudy}\n\nBible Reading: ${bibleReading}\n\n${window.location.href}`;
+    const shareMessage = `Rhapsody of Realities - ${title}\n\n${body}\n\nBible Reading: ${bibleReading}\n\n${window.location.href}`;
     
     // Encode the message for URL
     const encodedMessage = encodeURIComponent(shareMessage);
@@ -343,19 +360,43 @@ function initPrayerFeatures() {
   // Text-to-Speech Logic
   if (listenBtn && prayerText) {
     listenBtn.addEventListener('click', () => {
-      if ('speechSynthesis' in window) {
-        if (window.speechSynthesis.speaking) {
-          window.speechSynthesis.cancel();
-          return;
-        }
+      try {
+        if ('speechSynthesis' in window) {
+          if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            listenBtn.innerHTML = 'Listen to Prayer';
+            return;
+          }
 
-        const utterance = new SpeechSynthesisUtterance(prayerText.textContent);
-        utterance.onstart = () => listenBtn.innerHTML = 'Stop Listening';
-        utterance.onend = () => listenBtn.innerHTML = 'Listen to Prayer'; // Simplified for brevity, ideally restores SVG
-        
-        window.speechSynthesis.speak(utterance);
-      } else {
-        alert('Text-to-speech is not supported in your browser.');
+          const utterance = new SpeechSynthesisUtterance(prayerText.textContent);
+          utterance.rate = 0.9; // Slightly slower for better comprehension
+          utterance.pitch = 1;
+          
+          utterance.onstart = () => {
+            listenBtn.innerHTML = 'Stop Listening';
+            listenBtn.classList.add('bg-red-600', 'text-white');
+            listenBtn.classList.remove('bg-gold-500', 'text-royal-950');
+          };
+          
+          utterance.onend = () => {
+            listenBtn.innerHTML = 'Listen to Prayer';
+            listenBtn.classList.remove('bg-red-600', 'text-white');
+            listenBtn.classList.add('bg-gold-500', 'text-royal-950');
+          };
+
+          utterance.onerror = (error) => {
+            console.error('Speech synthesis error:', error);
+            alert('Sorry, there was an error with the text-to-speech feature.');
+            listenBtn.innerHTML = 'Listen to Prayer';
+          };
+          
+          window.speechSynthesis.speak(utterance);
+        } else {
+          alert('Text-to-speech is not supported in your browser.');
+        }
+      } catch (error) {
+        console.error('Error in prayer audio feature:', error);
+        alert('An error occurred while trying to play the prayer audio.');
       }
     });
   }
@@ -363,33 +404,37 @@ function initPrayerFeatures() {
   // "I Prayed" Confirmation Logic
   if (prayedBtn) {
     prayedBtn.addEventListener('click', () => {
-      const originalText = prayedBtn.innerHTML;
-      prayedBtn.textContent = 'Amen! Prayer Recorded.';
-      prayedBtn.classList.replace('bg-gold-500', 'bg-green-600');
-      setTimeout(() => {
-        prayedBtn.innerHTML = originalText;
-        prayedBtn.classList.replace('bg-green-600', 'bg-gold-500');
-      }, 3000);
+      try {
+        const originalText = prayedBtn.innerHTML;
+        const originalClasses = prayedBtn.className;
+        
+        prayedBtn.textContent = 'Amen! Prayer Recorded.';
+        prayedBtn.classList.replace('bg-gold-500', 'bg-green-600');
+        
+        setTimeout(() => {
+          prayedBtn.innerHTML = originalText;
+          prayedBtn.className = originalClasses;
+        }, 3000);
+      } catch (error) {
+        console.error('Error in prayer confirmation:', error);
+      }
     });
   }
 }
 
 
 function initVideoChallenge() {
-    const videoChallengeContainer = document.getElementById('video-challenge'); // More robust selector
-    if (!videoChallengeContainer) {
-        return; // Section not found, do nothing.
-    }
-
-    // Select elements
+    // Select elements with correct IDs
     const videoPlayer = document.getElementById('challenge-video');
     const recordBtn = document.getElementById('record-btn');
     const shareBtn = document.getElementById('share-btn');
     const downloadBtn = document.getElementById('download-btn');
-    const postRecordContainer = document.getElementById('post-record-actions');
+    const statusText = document.getElementById('status-text');
+    const recordIcon = document.getElementById('record-icon');
+    const recordText = document.getElementById('record-text');
 
-    if (!videoPlayer || !recordBtn || !shareBtn || !downloadBtn || !postRecordContainer) {
-        console.error('One or more video challenge elements are missing.');
+    if (!videoPlayer || !recordBtn || !shareBtn || !downloadBtn || !statusText) {
+        console.warn('Video challenge elements not found, skipping initialization');
         return;
     }
 
@@ -402,127 +447,245 @@ function initVideoChallenge() {
     let recordingState = 'idle'; // 'idle', 'recording', 'recorded'
     let timerInterval;
 
-    // SVG Icons for buttons
-    const startIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect></svg> Start Recording`;
-    const stopIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect></svg> Stop Recording`;
-    const retakeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg> Retake`;
-
-    const updateUI = (state) => {
-        recordingState = state;
-        if (timerInterval) clearInterval(timerInterval);
-
-        if (state === 'idle') {
-            recordBtn.innerHTML = startIcon;
-            recordBtn.className = 'bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-royal-950 px-8 py-3 rounded-xl font-black text-lg flex items-center gap-2 shadow-lg transform hover:scale-105 transition-all';
-            shareBtn.style.display = 'none';
-            downloadBtn.style.display = 'none';
-            postRecordContainer.style.display = 'none';
+    // Cleanup function to prevent memory leaks
+    const cleanup = () => {
+        try {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            if (videoBlobUrl) {
+                URL.revokeObjectURL(videoBlobUrl);
+                videoBlobUrl = null;
+            }
+            videoBlob = null;
+            recordedChunks = [];
             videoPlayer.src = '';
             videoPlayer.srcObject = null;
             videoPlayer.controls = false;
-            videoPlayer.muted = true; // Mute preview to prevent feedback
+            videoPlayer.muted = true;
+        } catch (error) {
+            console.error('Error during cleanup:', error);
+        }
+    };
+
+    const updateUI = (state) => {
+        recordingState = state;
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        if (state === 'idle') {
+            cleanup();
+            recordIcon.textContent = '🔴';
+            recordText.textContent = 'Start Recording';
+            recordBtn.className = 'video-button record-btn';
+            shareBtn.classList.add('hidden');
+            downloadBtn.classList.add('hidden');
+            statusText.textContent = 'Ready to record';
+            statusText.className = 'video-status';
         } else if (state === 'recording') {
             const startTime = Date.now();
             const updateTimer = () => {
                 const elapsed = Date.now() - startTime;
                 const mins = Math.floor(elapsed / 60000).toString().padStart(2, '0');
                 const secs = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
-                recordBtn.innerHTML = stopIcon.replace('Stop Recording', `${mins}:${secs}`);
+                recordText.textContent = `${mins}:${secs}`;
             };
             updateTimer();
             timerInterval = setInterval(updateTimer, 1000);
-            recordBtn.className = 'bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-black text-lg flex items-center gap-2 shadow-lg transform hover:scale-105 transition-all';
-            shareBtn.style.display = 'none';
-            downloadBtn.style.display = 'none';
-            postRecordContainer.style.display = 'none';
+            recordIcon.textContent = '⏹️';
+            recordBtn.className = 'video-button record-btn recording-pulse';
+            shareBtn.classList.add('hidden');
+            downloadBtn.classList.add('hidden');
+            statusText.textContent = 'Recording... Click stop when done';
+            statusText.className = 'video-status recording-pulse';
         } else if (state === 'recorded') {
-            recordBtn.innerHTML = retakeIcon;
-            recordBtn.className = 'bg-royal-800 hover:bg-royal-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all';
-            shareBtn.style.display = 'flex';
-            downloadBtn.style.display = 'flex';
-            postRecordContainer.style.display = 'block';
+            recordIcon.textContent = '🔄';
+            recordText.textContent = 'Retake';
+            recordBtn.className = 'video-button record-btn';
+            shareBtn.classList.remove('hidden');
+            downloadBtn.classList.remove('hidden');
+            statusText.textContent = 'Video recorded successfully!';
+            statusText.className = 'video-status';
         }
     };
 
     const startRecording = async () => {
         try {
-            stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            // Check if browser supports media recording
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                throw new Error('Media recording is not supported in this browser.');
+            }
+
+            // Request camera and microphone access with portrait aspect ratio
+            stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { width: 300, height: 533 }, // Portrait aspect ratio
+                audio: true 
+            });
+            
             videoPlayer.srcObject = stream;
             videoPlayer.play();
             updateUI('recording');
 
+            // Initialize MediaRecorder with optimal settings
             recordedChunks = [];
-            mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            mediaRecorder = new MediaRecorder(stream, { 
+                mimeType: 'video/webm;codecs=vp9,opus' 
+            });
             
             mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0) recordedChunks.push(event.data);
+                if (event.data && event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
             };
 
             mediaRecorder.onstop = () => {
-                videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
-                videoBlobUrl = URL.createObjectURL(videoBlob);
-                videoPlayer.srcObject = null;
-                videoPlayer.src = videoBlobUrl;
-                videoPlayer.muted = false;
-                videoPlayer.controls = true;
-                updateUI('recorded');
+                try {
+                    videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                    videoBlobUrl = URL.createObjectURL(videoBlob);
+                    videoPlayer.srcObject = null;
+                    videoPlayer.src = videoBlobUrl;
+                    videoPlayer.muted = false;
+                    videoPlayer.controls = true;
+                    updateUI('recorded');
+                } catch (error) {
+                    console.error('Error processing recorded video:', error);
+                    alert('There was an error processing your video. Please try recording again.');
+                    updateUI('idle');
+                }
             };
 
-            mediaRecorder.start();
+            mediaRecorder.onerror = (error) => {
+                console.error('MediaRecorder error:', error);
+                alert('There was an error recording your video. Please try again.');
+                updateUI('idle');
+            };
+
+            mediaRecorder.start(1000); // Collect data every second
         } catch (err) {
             console.error("Error accessing media devices.", err);
-            alert("Could not access camera or microphone. Please check permissions and try again.");
+            if (err.name === 'NotAllowedError') {
+                alert("Camera and microphone access was denied. Please allow access and try again.");
+            } else if (err.name === 'NotFoundError') {
+                alert("No camera or microphone found on this device.");
+            } else {
+                alert("Could not access camera or microphone. Please check permissions and try again.");
+            }
             updateUI('idle');
         }
     };
 
     const stopRecording = () => {
-        if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
-        if (stream) stream.getTracks().forEach(track => track.stop());
+        try {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        } catch (error) {
+            console.error('Error stopping recording:', error);
+        }
     };
 
+    const resetRecording = () => {
+        cleanup();
+        updateUI('idle');
+    };
+
+    // Event Listeners
     recordBtn.addEventListener('click', () => {
-        if (recordingState === 'idle') startRecording();
-        else if (recordingState === 'recording') stopRecording();
-        else if (recordingState === 'recorded') updateUI('idle');
-    });
-
-    downloadBtn.addEventListener('click', () => {
-        if (!videoBlobUrl) return;
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = videoBlobUrl;
-        a.download = 'rhapsody-video-challenge.webm';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    });
-
-    shareBtn.addEventListener('click', async () => {
-        if (videoBlob && navigator.share && navigator.canShare) {
-            const file = new File([videoBlob], 'rhapsody-video-challenge.webm', { type: 'video/webm' });
-            try {
-                if (navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        files: [file],
-                        title: 'My Rhapsody Video Challenge',
-                        text: 'Check out my video reading today\'s Rhapsody of Realities!',
-                    });
-                } else {
-                    alert('Sharing this file type is not supported on your device.');
-                }
-            } catch (err) {
-                if (err.name !== 'AbortError') {
-                    console.error('Error sharing:', err);
-                    alert('An error occurred while trying to share.');
-                }
+        try {
+            if (recordingState === 'idle') {
+                startRecording();
+            } else if (recordingState === 'recording') {
+                stopRecording();
+            } else if (recordingState === 'recorded') {
+                resetRecording();
             }
-        } else {
-            alert('Web Share API is not available on your browser, or there is no video to share.');
+        } catch (error) {
+            console.error('Error in record button handler:', error);
+            alert('An error occurred. Please try again.');
         }
     });
 
-    // Initialize UI for the video challenge section
+    downloadBtn.addEventListener('click', () => {
+        try {
+            if (!videoBlobUrl) {
+                alert('No video to download. Please record a video first.');
+                return;
+            }
+            
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = videoBlobUrl;
+            a.download = 'rhapsody-video-challenge.webm';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Error downloading video:', error);
+            alert('There was an error downloading your video.');
+        }
+    });
+
+    shareBtn.addEventListener('click', async () => {
+        try {
+            if (!videoBlob) {
+                alert('No video to share. Please record a video first.');
+                return;
+            }
+
+            if (videoBlob && navigator.share && navigator.canShare) {
+                const file = new File([videoBlob], 'rhapsody-video-challenge.webm', { type: 'video/webm' });
+                
+                if (navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: 'My Rhapsody Video Challenge',
+                            text: 'Check out my video reading today\'s Rhapsody of Realities!',
+                        });
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            console.error('Error sharing:', err);
+                            alert('An error occurred while trying to share.');
+                        }
+                    }
+                } else {
+                    alert('Sharing this file type is not supported on your device.');
+                }
+            } else {
+                alert('Web Share API is not available on your browser, or there is no video to share.');
+            }
+        } catch (err) {
+            if (err.name !== 'AbortError') {
+                console.error('Error sharing:', err);
+                alert('An error occurred while trying to share.');
+            }
+        }
+    });
+
+    // Handle page unload to cleanup resources
+    window.addEventListener('beforeunload', cleanup);
+
+    // Handle visibility change to stop recording if page is hidden
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && recordingState === 'recording') {
+            stopRecording();
+        }
+    });
+
+    // Initialize UI
     updateUI('idle');
 }
   
@@ -583,7 +746,18 @@ async function fetchDailyContent() {
   try {
     // Use a CORS proxy to fetch the content from the Rhapsody website
     const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://read.rhapsodyofrealities.org/');
-    const response = await fetch(proxyUrl);
+    
+    // Add timeout for fetch request
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    const response = await fetch(proxyUrl, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
 
     if (!data.contents) throw new Error('No content received from proxy');
@@ -593,11 +767,19 @@ async function fetchDailyContent() {
 
     // Attempt to scrape content using generic selectors common to the site structure
     // Note: Selectors may need adjustment if the external site structure changes
-    const title = doc.querySelector('h1')?.textContent.trim() || doc.querySelector('.entry-title')?.textContent.trim();
-    const date = doc.querySelector('.date')?.textContent.trim() || doc.querySelector('time')?.textContent.trim();
+    const title = doc.querySelector('h1')?.textContent.trim() || 
+                  doc.querySelector('.entry-title')?.textContent.trim() ||
+                  doc.querySelector('h2')?.textContent.trim();
+    
+    const date = doc.querySelector('.date')?.textContent.trim() || 
+                  doc.querySelector('time')?.textContent.trim() ||
+                  doc.querySelector('.published')?.textContent.trim();
     
     // Find the main content container
-    const contentContainer = doc.querySelector('.entry-content') || doc.querySelector('article') || doc.body;
+    const contentContainer = doc.querySelector('.entry-content') || 
+                            doc.querySelector('article') || 
+                            doc.querySelector('.content') ||
+                            doc.body;
     
     // Extract paragraphs
     let paragraphs = Array.from(contentContainer.querySelectorAll('p'))
@@ -610,7 +792,9 @@ async function fetchDailyContent() {
     
     // Look for confession keyword
     const confessionIndex = paragraphs.findIndex(p => 
-      p.toUpperCase().includes('CONFESSION') || p.toUpperCase().includes('PRAYER')
+      p.toUpperCase().includes('CONFESSION') || 
+      p.toUpperCase().includes('PRAYER') ||
+      p.toUpperCase().includes('DECLARATION')
     );
 
     if (confessionIndex !== -1) {
@@ -621,11 +805,11 @@ async function fetchDailyContent() {
       paragraphs = paragraphs.slice(1); // Just remove scripture
     }
 
-    if (title) {
+    if (title && title.length > 10) { // Basic validation for title length
       return { title, date, scripture, body: paragraphs, confession };
     }
     
-    throw new Error('Could not parse site content');
+    throw new Error('Could not parse site content - title too short or missing');
 
   } catch (err) {
     console.warn('Fetching failed or blocked, falling back to offline content:', err);
