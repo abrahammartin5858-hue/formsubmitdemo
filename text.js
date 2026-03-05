@@ -745,7 +745,8 @@ function initDailyDevotional() {
 async function fetchDailyContent() {
   try {
     // Use a CORS proxy to fetch the content from the Rhapsody website
-    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://read.rhapsodyofrealities.org/');
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/' + 'https://read.rhapsodyofrealities.org/';
+
     
     // Add timeout for fetch request
     const controller = new AbortController();
@@ -814,12 +815,13 @@ async function fetchDailyContent() {
   } catch (err) {
     console.warn('Fetching failed or blocked, falling back to offline content:', err);
     return {
-        title: "Living In His Authority",
-        scripture: "\"And these signs shall follow them that believe; In my name shall they cast out devils...\" (Mark 16:17)",
+        title: "DON’T SPEAK AGAINST GOD",
+        scripture: "\"Your words have been stout against me, saith the LORD. Yet ye say, What have we spoken so much against thee? \" (Malachi 3:13)",
         body: [
-          "The authority given to us in the Name of Jesus is absolute. It covers everything in heaven, on earth, and under the earth.",
-          "You don't need to struggle to make things happen. When you speak in His Name, power is released.",
-          "Today, exercise that authority over your circumstances. Don't beg; command results in the Name of Jesus. The world is waiting for your manifestation."
+          "From our opening scripture above, we read something quite sobering. Speaking through the Prophet Malachi, God said, “Your words have been stout against me.",
+          "Imagine that men would speak words that stand against God. Yet, in their ignorance, they asked, What have we spoken against you?",
+          "They didn’t even realize they were speaking in defiance to God. This is still happening today."
+          
         ],
         confession: "I walk in the authority of Christ. Circumstances align with my words because I speak in the Name of Jesus. I am victorious in all things. Hallelujah!"
     };
