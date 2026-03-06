@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDailyDevotional();
   initVideoChallenge();
   initSocialSharing();
+  intiSearchform();
 });
 
 /**
@@ -50,6 +51,7 @@ function initClock() {
 
 /**
  * Handles the testimony textarea character count and submit button state.
+ * Modified to send testimony via email instead of showing UI.
  */
 function initTestimonyForm() {
   const textarea = document.querySelector('textarea');
@@ -78,11 +80,46 @@ function initTestimonyForm() {
 
     submitBtn.addEventListener('click', () => {
       if (!submitBtn.disabled) {
-        alert('Testimony submitted successfully!');
-        textarea.value = '';
-        textarea.dispatchEvent(new Event('input')); // Reset state
+        const testimony = textarea.value.trim();
+        if (testimony) {
+          sendTestimonyEmail(testimony);
+        }
       }
     });
+  }
+}
+
+/**
+ * Sends testimony via email using the mailto protocol.
+ * @param {string} testimony - The testimony text to send
+ */
+function sendTestimonyEmail(testimony) {
+  try {
+    // Get current devotional information
+    const title = document.getElementById('clean_title')?.textContent || 'Unknown Devotional';
+    const date = document.getElementById('devo_date')?.textContent || 'Unknown Date';
+    
+    // Create email content
+    const subject = encodeURIComponent(`Testimony - ${title} (${date})`);
+    const body = encodeURIComponent(`Testimony Submission\n\nDate: ${date}\nDevotional: ${title}\n\nTestimony:\n${testimony}\n\n---\nSent via THE LAST MAN Website`);
+    
+    // Create mailto link
+    const mailtoLink = `mailto:abrahammartin5858@gmail.com?subject=${subject}&body=${body}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+    
+    // Reset form after sending
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      textarea.value = '';
+      textarea.dispatchEvent(new Event('input')); // Reset state
+    }
+    
+    alert('Testimony will be sent via email. Please complete the email in your email client.');
+  } catch (error) {
+    console.error('Error sending testimony email:', error);
+    alert('Failed to send testimony. Please try again or contact support.');
   }
 }
 
@@ -815,12 +852,12 @@ async function fetchDailyContent() {
   } catch (err) {
     console.warn('Fetching failed or blocked, falling back to offline content:', err);
     return {
-        title: "DON’T SPEAK AGAINST GOD",
-        scripture: "\"Your words have been stout against me, saith the LORD. Yet ye say, What have we spoken so much against thee? \" (Malachi 3:13)",
+        title: "RIGHTEOUSNESS CONSCIOUSNESS",
+        scripture: "\"For he hath made him to be sin for us, who knew no sin; that we might be made the righteousness of God in him \"  (2 Corinthians 5:21).",
         body: [
-          "From our opening scripture above, we read something quite sobering. Speaking through the Prophet Malachi, God said, “Your words have been stout against me.",
-          "Imagine that men would speak words that stand against God. Yet, in their ignorance, they asked, What have we spoken against you?",
-          "They didn’t even realize they were speaking in defiance to God. This is still happening today..............."
+          "The Apostle Paul, by the Spirit, unveils one of the most extraordinary revelations in Scripture: God made Jesus, who knew no sin, to be sin for us so that we might be made the righteousness of God in Him. ",
+          " Remarkable! Jesus wasn’t made a sin offering or a sin sacrifice in a figurative sense; rather, He was made sin itself. On the cross, He became the very embodiment of sin.",
+          "This is much more than He being declared sinless by God; it conveys something deeper: Jesus had a consciousness of His own sinlessness. He was sinlessness-conscious............  "
           
         ],
         

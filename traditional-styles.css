@@ -1284,6 +1284,21 @@ textarea:focus {
   outline-offset: 2px;
 }
 
+/* Search Highlighting */
+.search-highlight {
+  background-color: #f59e0b;
+  color: #1f2937;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 600;
+  animation: highlight-fade 2s ease-out;
+}
+
+@keyframes highlight-fade {
+  0% { background-color: #f59e0b; }
+  100% { background-color: transparent; }
+}
+
 /* Print Styles */
 @media print {
   .site-header,
