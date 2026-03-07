@@ -116,7 +116,7 @@ function sendTestimonyEmail(testimony) {
       textarea.dispatchEvent(new Event('input')); // Reset state
     }
     
-    alert('Testimony will be sent via email. Please complete the email in your email client.');
+    alert('Testimony will be sent via email. Please complete the process in your email kindly.');
   } catch (error) {
     console.error('Error sending testimony email:', error);
     alert('Failed to send testimony. Please try again or contact support.');
@@ -187,11 +187,11 @@ function initSocialSharing() {
     const bibleReading = document.getElementById('ba')?.textContent || '';
     
     // Create share message with devotional content (shorter for Twitter)
-    const shareMessage = `Rhapsody of Realities - ${title}\n${body.substring(0, 150)}...\nFurther Study: ${furtherStudy}\n${window.location.href}`;
+    const shareMessage = `Rhapsody of Realities - ${title}\n${body.substring(0, 100)}...\nFurther Study: ${furtherStudy}\n${window.location.href}`;
     
     // Encode the message for URL
     const encodedMessage = encodeURIComponent(shareMessage);
-    const encodedHashtags = encodeURIComponent('#RhapsodyOfRealities #DailyDevotional #Faith');
+    const encodedHashtags = encodeURIComponent('#RhapsodyOfRealities  #rightlivingwithGod');
     
     // Create Twitter share URL
     const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodedMessage}&hashtags=${encodedHashtags}`;
@@ -206,13 +206,33 @@ function initSocialSharing() {
     // YouTube sharing would require uploading the video first
     // For now, just open YouTube
     window.open('https://www.youtube.com/upload', '_blank');
+
+      // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    const encodedHashtags = encodeURIComponent('#RhapsodyOfRealities  #rightlivingwithGod');
+  };
+
+  //Add ShareToTiktok function to global scope (for video challenge)
+  window.shareToTiktok = function(event) {
+    event.preventDefault();
+    //Tiktok sharing would reguire upload the video first 
+    //For now, just open tiktok
+    window.open('https://www.tiktok.com/accounts/upload', '_blank');
+
+      // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    const encodedHashtags = encodeURIComponent('#RhapsodyOfRealities  #rightlivingwithGod');
   };
 
   // Add shareToInstagram function to global scope
   window.shareToInstagram = function(event) {
     event.preventDefault();
     // Instagram sharing from web is limited, open Instagram app/website
-    window.open('https://www.instagram.com/accounts/login/', '_blank');
+    window.open('https://www.instagram.com/accounts/login/story', '_blank');
+
+      // Encode the message for URL
+    const encodedMessage = encodeURIComponent(shareMessage);
+    const encodedHashtags = encodeURIComponent('#RhapsodyOfRealities  #rightlivingwithGod');
   };
 
   // Add shareToEmail function to global scope
@@ -787,7 +807,7 @@ async function fetchDailyContent() {
     
     // Add timeout for fetch request
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 0.5 * 1000); // 10 second timeout
 
     const response = await fetch(proxyUrl, { signal: controller.signal });
     clearTimeout(timeoutId);
@@ -852,12 +872,12 @@ async function fetchDailyContent() {
   } catch (err) {
     console.warn('Fetching failed or blocked, falling back to offline content:', err);
     return {
-        title: "RIGHTEOUSNESS CONSCIOUSNESS",
-        scripture: "\"For he hath made him to be sin for us, who knew no sin; that we might be made the righteousness of God in him \"  (2 Corinthians 5:21).",
+        title: "THE EXPRESSION AND EMBODIMENT OF DIVINITY",
+        scripture: "\"For it pleased the Father that in him should all fulness dwell \"  (Colossians 1:19).",
         body: [
-          "The Apostle Paul, by the Spirit, unveils one of the most extraordinary revelations in Scripture: God made Jesus, who knew no sin, to be sin for us so that we might be made the righteousness of God in Him. ",
-          " Remarkable! Jesus wasn’t made a sin offering or a sin sacrifice in a figurative sense; rather, He was made sin itself. On the cross, He became the very embodiment of sin.",
-          "This is much more than He being declared sinless by God; it conveys something deeper: Jesus had a consciousness of His own sinlessness. He was sinlessness-conscious............  "
+          "The Lord Jesus is much more than a great or highly honoured religious leader; He’s the totality of divinity in flesh. He’s the embodiment of Deity. ",
+          " Titus 2:13 describes Him as “the great God”: <strong>“Looking for that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ.</strong>”",
+          "He’s also the totality of all wisdom and knowledge: Colossians 2:3, “In whom are hid all the treasures of wisdom and knowledge.” Hallelujah! When He walk..........  "
           
         ],
         
