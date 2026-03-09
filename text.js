@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDailyDevotional();
   initVideoChallenge();
   initSocialSharing();
+  initDropdownMenu();
   intiSearchform();
 });
 
@@ -401,6 +402,75 @@ function initSocialSharing() {
   };
 }
 
+
+/**
+ * Initializes dropdown menu functionality for the "More Options" button.
+ */
+function initDropdownMenu() {
+  const dropdownBtn = document.getElementById('more-options-btn');
+  const dropdownMenu = document.getElementById('more-options-menu');
+  const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+  if (!dropdownBtn || !dropdownMenu) {
+    console.warn('Dropdown elements not found, skipping initialization');
+    return;
+  }
+
+  // Toggle dropdown on button click
+  dropdownBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleDropdown();
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (event) => {
+    if (!dropdownBtn.contains(event.target) && !dropdownMenu.contains(event.target)) {
+      closeDropdown();
+    }
+  });
+
+  // Close dropdown when pressing Escape key
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeDropdown();
+    }
+  });
+
+  // Handle dropdown item clicks
+  dropdownItems.forEach(item => {
+    item.addEventListener('click', () => {
+      closeDropdown();
+    });
+  });
+
+  // Update aria-expanded attribute
+  function updateAriaExpanded() {
+    const isExpanded = dropdownMenu.classList.contains('show');
+    dropdownBtn.setAttribute('aria-expanded', isExpanded.toString());
+  }
+
+  // Toggle dropdown visibility
+  function toggleDropdown() {
+    if (dropdownMenu.classList.contains('show')) {
+      closeDropdown();
+    } else {
+      openDropdown();
+    }
+  }
+
+  // Open dropdown
+  function openDropdown() {
+    dropdownMenu.classList.add('show');
+    updateAriaExpanded();
+  }
+
+  // Close dropdown
+  function closeDropdown() {
+    dropdownMenu.classList.remove('show');
+    updateAriaExpanded();
+  }
+}
 
 /**
  * Initializes audio and interaction for the prayer section.

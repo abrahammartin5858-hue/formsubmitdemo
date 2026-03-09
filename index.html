@@ -145,22 +145,102 @@
               </svg> Twitter</button>
               </a>
 
-              <div class="share-button">
-                 <label for="More-OPtions" onclick="$" class="share-button more">More Options:</label>
-
-                 <datalist id="">
-                  <option value="Email" class="share-button Email">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail text-gold-500" aria-hidden="true">
-              <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
-              <rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>Email</option>
-                  <option value=""></option>
-                  <option value=""></option>
-                  <option value=""></option>
-                  <option value=""></option>
-                  <option value=""></option>
-                 </datalist>
-
+              <div class="share-dropdown">
+                <button class="share-button more" id="more-options-btn" aria-haspopup="true" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-more-horizontal" aria-hidden="true">
+                  <circle cx="12" cy="12" r="1"></circle>
+                  <circle cx="19" cy="12" r="1"></circle>
+                  <circle cx="5" cy="12" r="1"></circle>
+                </svg>
+                  More Options
+                </button>
+                
+                <div class="dropdown-menu" id="more-options-menu" role="menu">
+                  <button class="dropdown-item" onclick="shareToEmail(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail" aria-hidden="true">
+                    <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  </svg>
+                    Email
+                  </button>
+                  
+                  <button class="dropdown-item" onclick="shareToLinkedIn(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin" aria-hidden="true">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                  </svg>
+                    LinkedIn
+                  </button>
+                  
+                  <button class="dropdown-item" onclick="shareToTelegram(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send" aria-hidden="true">
+                    <path d="m21 21-4.34-4.34"></path>
+                    <path d="M16.66 16.66L21 21"></path>
+                    <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l3-1.73"></path>
+                  </svg>
+                    Telegram
+                  </button>
+                  
+                  <button class="dropdown-item" onclick="shareToPinterest(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pinterest" aria-hidden="true">
+                    <path d="M8 2a10 10 0 0 1 10 10c0 2.89-.9 6.86-5.7 8.5a1 1 0 0 1-.6.05a1 1 0 0 1-.6-.2 2 2 0 0 1-.9-1.1 3 3 0 0 1-.1-1.2c0-2.8.9-5.1 2.6-6.8a2 2 0 0 0-.5-2.5 2 2 0 0 0-2.5-.5c-1.7 1.3-2.5 3.3-2.5 5.5a6 6 0 1 0 12 0c0-3.5-3-7-9-7a10 10 0 0 0-9 10 1 1 0 0 0 1 1h2a1 1 0 0 0 1-1 6 6 0 1 1 6 6 1 1 0 0 0-1-1z"></path>
+                  </svg>
+                    Pinterest
+                  </button>
+                  
+                  <button class="dropdown-item" onclick="shareToReddit(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                  </svg>
+                    Reddit
+                  </button>
+                  
+                  <button class="dropdown-item" onclick="shareToCopyLink(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                    Copy Link
+                  </button>
+                  
+                  <button class="dropdown-item" onclick="shareToPrint(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer" aria-hidden="true">
+                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                  </svg>
+                    Print
+                  </button>
+                  
+                  <button class="dropdown-item" onclick="shareToSMS(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle" aria-hidden="true">
+                    <path d="M7.9 20A9 9 0 1 0 4 16"></path>
+                    <path d="M22 20c0-3.37-2.7-6.07-6-6"></path>
+                    <path d="M22 20c0-3.37-2.7-6.07-6-6"></path>
+                  </svg>
+                    SMS
+                  </button>
+                  
+                  <button class="dropdown-item" onclick="shareToInstagram(event)" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram" aria-hidden="true">
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                  </svg>
+                    Instagram
+                  </button>
+                </div>
               </div>
                 
             </div>
